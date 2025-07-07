@@ -1,31 +1,16 @@
 import { useState } from "react";
 import { Text, View, TextInput, StyleSheet, Pressable, FlatList } from "react-native";
 import { Image } from 'expo-image';
+import { Movie } from "@/app/types/types";
 
-export default function MovieStore() {
+interface MovieStoreProps {
+    movies: Movie[];
+}
 
-    let fakeResultMovies = [{
-        id: 1,
-        "Title": 'My favorite fake movie',
-        "Runtime": "120 min",
-        "Director": "Me",
-        "imdbRating": "10",
-        "Genre": "Crime, Drama, Thriller",
-        "Poster": "https://m.media-amazon.com/images/M/MV5BMmU5NGJlMzAtMGNmOC00YjJjLTgyMzUtNjAyYmE4Njg5YWMyXkEyXkFqcGc@._V1_SX300.jpg",
-        "Year": "2019"
-    }, {
-        id: 2,
-        "Title": 'My least favorite fake movie',
-        "Runtime": "90 min",
-        "Director": "Not Me",
-        "imdbRating": "0",
-        "Genre": "Action, Adventure",
-        "Poster": "https://m.media-amazon.com/images/M/MV5BMmU5NGJlMzAtMGNmOC00YjJjLTgyMzUtNjAyYmE4Njg5YWMyXkEyXkFqcGc@._V1_SX300.jpg",
-        "Year": "2024"
-    },]
+export default function MovieStore({ movies }: MovieStoreProps) {
 
     return (
-        <View style={stylesMovieStore.container}>
+        <View style={stylesMovieStore.container} testID="movieColumns">
             <View style={stylesMovieStore.columnsContainer}>
                 <View style={stylesMovieStore.textContainer}>
                     <Text style={stylesMovieStore.textItem}>Image</Text>
@@ -41,9 +26,10 @@ export default function MovieStore() {
             </View>
 
             <FlatList
-                data={fakeResultMovies}
+                data={movies}
+                testID="moviesList"
                 renderItem={({ item }) =>
-                    <View style={stylesMovieStore.movieItem}>
+                    <View style={stylesMovieStore.movieItem} id={item.Title} testID="movieItem">
                         <View
                             style={stylesMovieStore.imageContainer}>
                             <Image
@@ -114,7 +100,7 @@ const stylesMovieStore = StyleSheet.create({
         width: '20%', // 100 divide by number of columns
         height: '100%',
         alignItems: "center",
-        justifyContent:"center"
+        justifyContent: "center"
     },
     textItem: {
         textAlign: "center",
