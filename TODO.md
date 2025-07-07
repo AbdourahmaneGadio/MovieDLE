@@ -4,7 +4,14 @@ TODO list
 
 ### Todo
 
-- [ ] Progress
+- [ ] Search bar text input
+- [ ] Search bar ok button
+- [ ] Search bar movies list front
+- [ ] Movies chosen list
+- [ ] Movies chosen clues
+- [ ] Victory message
+- [ ] Defeat message
+- [ ] Movies database
 
 ### In Progress
 

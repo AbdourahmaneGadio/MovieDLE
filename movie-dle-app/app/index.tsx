@@ -1,6 +1,13 @@
+import LifeBar from "@/components/LifeBar";
+import MovieStore from "@/components/MovieStore";
+import SearchBar from "@/components/SearchBar";
+import { useState } from "react";
 import { Text, View } from "react-native";
 
 export default function Index() {
+
+      const [lifePointsLost, setLifePointsLost] = useState(0);
+
   return (
     <View
       style={{
@@ -9,7 +16,10 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+      <Text>MovieDLE</Text>
+      <SearchBar />
+      <LifeBar lifePointsLost={lifePointsLost} />
+      <MovieStore />
     </View>
   );
 }
