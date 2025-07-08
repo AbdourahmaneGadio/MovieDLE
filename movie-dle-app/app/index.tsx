@@ -10,9 +10,14 @@ export default function Index() {
 
   const [lifePointsLost, setLifePointsLost] = useState(0);
   const [moviesChosen, setMoviesChosen] = useState<Movie[]>([]);
+  const [movieToFind, setMovieToFind] = useState<Movie>(movieDatabase[0]);
 
   const handleButtonPress = (singleMovieChosen: Movie) => {
    setMoviesChosen([...moviesChosen, singleMovieChosen])
+
+   if (singleMovieChosen != movieToFind){
+    setLifePointsLost(lifePointsLost+10)
+   }
   };
 
   return (
