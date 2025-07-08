@@ -21,7 +21,7 @@ describe('<MovieStore />', () => {
     expect(movieList).toBeOnTheScreen()
 
     const movieItems = getAllByTestId('movieItem')
-    expect(movieItems.length).toBe(movieDatabase.length)
+    expect(movieItems).toHaveLength(movieDatabase.length)
   });
 
 });

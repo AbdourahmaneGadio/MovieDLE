@@ -40,7 +40,8 @@ export default function SearchBar({ onPress }: SearchBarProps) {
                     <Text testID="searchBarOkButton" >OK</Text>
                 </Pressable>
             </View>
-            {moviesSearchCompatibles.length > 0  ?  <FlatList
+            {moviesSearchCompatibles.length > 0 && 
+            <FlatList
                 data={moviesSearchCompatibles}
                 renderItem={({ item }) =>
                     <Pressable onPress={() => {
@@ -50,7 +51,13 @@ export default function SearchBar({ onPress }: SearchBarProps) {
                         <Text>{item.Title}</Text>
                     </Pressable>
                 }
-            /> :    <Text testID="noMoviesAvailableText">No movies available...</Text>}
+            />
+            }
+
+            {
+            moviesAvailable.length == 0 && 
+            <Text testID="noMoviesAvailableText">No movies available...</Text>
+            }
 
         </View>
     );
