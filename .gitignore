@@ -37,3 +37,18 @@ yarn-error.*
 *.tsbuildinfo
 
 app-example
+
+#Junit report
+coverage/
+junit.xml
+
+node_modules/**
+package.json
+yarn.lock
+ios/**
+android/**
+assets/**
+.vscode
+.expo-shared
+.prettirrc
+.eslintrc.js
