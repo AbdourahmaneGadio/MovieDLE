@@ -22,8 +22,8 @@ jobs:
       - name: Install Node Modules
         run: npm install
 
-      # - name: Run Lint
-      #   run: npm run lint --fix
+      - name: Run Lint
+        run: npx expo lint --fix
 
       - name: Run tests
         run: npm run test:ci  
