@@ -1,5 +1,6 @@
 import { Movie } from '@/app/types/types';
 import movieDatabase from '@/database/movies.json';
+import { Image } from 'expo-image';
 import { useState } from 'react';
 import { FlatList, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
@@ -70,10 +71,27 @@ export default function SearchBar({ refreshMovieFoundList }: SearchBarProps) {
         data={moviesSearchCompatibles}
         renderItem={({ item }) => (
           <Pressable
+            style={{
+              height: 100, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly', borderColor: 'yellow',
+              borderWidth: 5,
+            }}
             onPress={() => {
               handleMovieSelected(item);
-            }}>
-            <Text>{item.Title}</Text>
+            }}
+
+          >
+            <View style={stylesSearchBar.imageContainer}>
+              <Image
+                style={stylesSearchBar.image}
+                source={item.Poster}
+                contentFit="cover"
+                transition={200}
+                contentPosition={'bottom center'}
+              />
+            </View>
+            <View style={{ width: '60%', alignItems: 'center' }}>
+              <Text>{item.Title}</Text>
+            </View>
           </Pressable>
         )}
       />
@@ -90,6 +108,8 @@ const stylesSearchBar = StyleSheet.create({
     borderColor: 'red',
     borderWidth: 5,
     marginVertical: 50,
+    width: '80%',
+    maxWidth:500
   },
   searchBarContainer: {
     flexDirection: 'row',
@@ -98,11 +118,34 @@ const stylesSearchBar = StyleSheet.create({
     borderColor: 'pink',
     borderWidth: 5,
     height: 40,
+    width: '80%',
   },
   okButtonContainer: {
     borderColor: 'darkblue',
     borderWidth: 5,
     backgroundColor: 'yellow',
     justifyContent: 'center',
+    alignItems: 'center',
+    width: '20%',
+  },
+  imageContainer: {
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '40%',
+    maxWidth: 200,
+    height: '100%',
+    maxHeight: 600,
+    marginHorizontal: 'auto',
+  },
+  imageBackground: {
+    width: '100%',
+    height: '100%',
+  },
+  image: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#0553',
   },
 });
