@@ -1,14 +1,14 @@
 import { Movie } from '@/app/types/types';
-import movieDatabase from '@/database/movies.json';
 import { Image } from 'expo-image';
 import { useState } from 'react';
-import { FlatList, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { FlatList, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 interface SearchBarProps {
   refreshMovieFoundList: (movie: Movie) => void;
+  movieDatabase : Movie[]
 }
 
-export default function SearchBar({ refreshMovieFoundList }: SearchBarProps) {
+export default function SearchBar({ refreshMovieFoundList, movieDatabase }: SearchBarProps) {
   const [text, onChangeText] = useState('');
 
   const [moviesAvailable, setMoviesAvailable] = useState<Movie[]>(movieDatabase);
@@ -46,6 +46,7 @@ export default function SearchBar({ refreshMovieFoundList }: SearchBarProps) {
   };
 
   return (
+ 
     <View style={stylesSearchBar.container}>
       <View style={stylesSearchBar.searchBarContainer}>
         <TextInput
@@ -66,14 +67,14 @@ export default function SearchBar({ refreshMovieFoundList }: SearchBarProps) {
           <Text testID="searchBarOkButton">OK</Text>
         </Pressable>
       </View>
-
+      <ScrollView style={stylesSearchBar.scrollView}>
       <FlatList
         data={moviesSearchCompatibles}
         renderItem={({ item }) => (
           <Pressable
             style={{
               height: 100, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly', borderColor: 'yellow',
-              borderWidth: 5,
+              borderWidth: 5, backgroundColor:'white',
             }}
             onPress={() => {
               handleMovieSelected(item);
@@ -95,7 +96,7 @@ export default function SearchBar({ refreshMovieFoundList }: SearchBarProps) {
           </Pressable>
         )}
       />
-
+</ScrollView>
       {text && moviesSearchCompatibles.length === 0 && (
         <Text testID="noMoviesAvailableText">No movies available...</Text>
       )}
@@ -105,29 +106,33 @@ export default function SearchBar({ refreshMovieFoundList }: SearchBarProps) {
 
 const stylesSearchBar = StyleSheet.create({
   container: {
-    borderColor: 'red',
-    borderWidth: 5,
-    marginVertical: 50,
     width: '80%',
-    maxWidth:500
+    maxWidth:500,
+    maxHeight:250
   },
   searchBarContainer: {
     flexDirection: 'row',
+    borderColor: 'darkblue',
+    borderWidth: 3,    borderRadius:10
   },
   textInput: {
-    borderColor: 'pink',
-    borderWidth: 5,
     height: 40,
     width: '80%',
+    backgroundColor: 'white',
+    textAlign:'center',
+    borderTopStartRadius:10,
+    borderBottomLeftRadius:10,
   },
   okButtonContainer: {
-    borderColor: 'darkblue',
-    borderWidth: 5,
     backgroundColor: 'yellow',
     justifyContent: 'center',
     alignItems: 'center',
     width: '20%',
+    borderTopRightRadius:10,
+    borderBottomRightRadius:10,
+
   },
+  scrollView:{ maxHeight: '100%',},
   imageContainer: {
     backgroundColor: '#fff',
     alignItems: 'center',

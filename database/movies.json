@@ -28,5 +28,15 @@
         "Genre": "Drama",
         "Poster": "https://artworks.thetvdb.com/banners/movies/436/posters/436.jpg",
         "Year": "2025"
+    },
+    {
+        "id": 4,
+        "Title":  "Meh",
+        "Runtime": "100 min",
+        "Director": "John Doe",
+        "imdbRating": "6",
+        "Genre": "Comedy",
+        "Poster": "https://artworks.thetvdb.com/banners/movies/436/posters/436.jpg",
+        "Year": "2016"
     }
 ]

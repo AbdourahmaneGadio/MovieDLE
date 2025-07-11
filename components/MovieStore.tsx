@@ -10,28 +10,30 @@ export default function MovieStore({ movies }: MovieStoreProps) {
   return (
     <View style={stylesMovieStore.container} testID="movieColumns">
       <View style={stylesMovieStore.columnsContainer}>
-        <View style={stylesMovieStore.textContainer}>
+        <View style={[stylesMovieStore.textContainer, stylesMovieStore.columnText]}>
           <Text style={stylesMovieStore.textItem}>Image</Text>
         </View>{' '}
-        <View style={stylesMovieStore.textContainer}>
+        <View style={[stylesMovieStore.textContainer, stylesMovieStore.columnText]}>
           <Text style={stylesMovieStore.textItem}>Title</Text>
         </View>{' '}
-        <View style={stylesMovieStore.textContainer}>
+        <View style={[stylesMovieStore.textContainer, stylesMovieStore.columnText]}>
           <Text style={stylesMovieStore.textItem}>Genre(s)</Text>
         </View>{' '}
-        <View style={stylesMovieStore.textContainer}>
+        <View style={[stylesMovieStore.textContainer, stylesMovieStore.columnText]}>
           <Text style={stylesMovieStore.textItem}>Release year</Text>
         </View>{' '}
-        <View style={stylesMovieStore.textContainer}>
+        <View style={[stylesMovieStore.textContainer, stylesMovieStore.columnText]}>
           <Text style={stylesMovieStore.textItem}>Director</Text>
         </View>
       </View>
 
+   
       <FlatList
         data={movies}
         testID="moviesList"
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <View style={stylesMovieStore.movieItem} id={item.Title} testID="movieItem">
+          <View style={stylesMovieStore.movieItem} testID="movieItem">
             <View style={stylesMovieStore.imageContainer}>
               <Image
                 style={stylesMovieStore.image}
@@ -55,24 +57,26 @@ export default function MovieStore({ movies }: MovieStoreProps) {
           </View>
         )}
       />
+ 
     </View>
   );
 }
 
 const stylesMovieStore = StyleSheet.create({
   container: {
-    borderColor: 'darkblue',
-    borderWidth: 5,
-    marginTop: 50,
-    width: '90%',
+    marginVertical: 10,
+    width: '95%',
+    maxHeight:350
   },
   columnsContainer: {
-    borderColor: 'red',
-    borderWidth: 5,
     marginVertical: 15,
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  columnText: {
+    backgroundColor:'white',
+    borderRadius:10
   },
   movieItem: {
     borderColor: 'yellow',
@@ -82,6 +86,8 @@ const stylesMovieStore = StyleSheet.create({
     alignItems: 'center',
     minHeight: 100,
     height: 150,
+    backgroundColor:'white',
+    borderRadius:20, marginBottom:10
   },
   imageContainer: {
     backgroundColor: '#fff',
@@ -90,12 +96,14 @@ const stylesMovieStore = StyleSheet.create({
     width: '20%',
     height: '100%',
     marginHorizontal: 'auto',
+    borderRadius:20,
   },
   image: {
     flex: 1,
     width: '100%',
     height: '100%',
     backgroundColor: '#0553',
+      borderRadius:15
   },
   textContainer: {
     width: '20%', // 100 divide by number of columns

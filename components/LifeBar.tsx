@@ -4,9 +4,8 @@ type LifeBarProps = {
   lifePointsLost: number;
 };
 
-export default function LifeBar(props: LifeBarProps) {
+export default function LifeBar({lifePointsLost}: LifeBarProps) {
   const lifePoints = 100;
-  const lifePointsLost = props.lifePointsLost;
   const lifePointsRemaning = lifePoints - lifePointsLost;
 
   return (
@@ -15,6 +14,8 @@ export default function LifeBar(props: LifeBarProps) {
         style={{
           borderColor: 'green',
           borderWidth: 5,
+          borderTopLeftRadius:5,
+          borderBottomLeftRadius:5,
           width: `${lifePointsRemaning}%`,
           visibility: lifePointsRemaning > 0 ? '' : 'hidden',
         }}
@@ -22,7 +23,9 @@ export default function LifeBar(props: LifeBarProps) {
       <View
         style={{
           borderColor: 'red',
-          borderWidth: 5,
+          borderWidth: 5,  
+          borderTopRightRadius:5,
+          borderBottomRightRadius:5,
           width: `${lifePointsLost}%`,
           visibility: lifePointsLost > 0 ? '' : 'hidden',
         }}
@@ -35,8 +38,9 @@ const stylesLifeBar = StyleSheet.create({
   container: {
     borderColor: 'gold',
     borderWidth: 5,
-    marginVertical: 5,
+    marginVertical: 10,
     flexDirection: 'row',
     width: `90%`,
+    borderRadius:10
   },
 });
