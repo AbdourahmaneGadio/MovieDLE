@@ -10,44 +10,63 @@ export default function Index() {
   const [lifePointsLost, setLifePointsLost] = useState(0);
   const [moviesChosen, setMoviesChosen] = useState<Movie[]>([]);
   const [isGameOver, setIsGameOver] = useState(false);
-  const [moviesFromDatabase, setMoviesFromDatabase] = useState(movieDatabase)
+  const [moviesFromDatabase, setMoviesFromDatabase] = useState(movieDatabase);
   const movieToFind = movieDatabase[0];
+
+  const backgroundImage = require('@/assets/images/background/bruno-guerrero-haCls4xhdqE-unsplash.jpg');
 
   const handleButtonPress = (singleMovieChosen: Movie) => {
     setMoviesChosen([...moviesChosen, singleMovieChosen]);
 
     if (singleMovieChosen !== movieToFind) {
       setLifePointsLost(lifePointsLost + 10);
-    } else{
-      setIsGameOver(true)
+    } else {
+      setIsGameOver(true);
     }
   };
 
   const resetGame = () => {
     setMoviesChosen([]);
-    setMoviesFromDatabase(movieDatabase)
-    setLifePointsLost(0)
-    setIsGameOver(false)
+    setMoviesFromDatabase(movieDatabase);
+    setLifePointsLost(0);
+    setIsGameOver(false);
   };
 
   return (
-    <View
-    style={styles.container}>
-        <View  style={{
-     
- alignItems:'center', justifyContent:'center', backgroundColor:'black', padding:10, width:'50%', marginVertical:10
-   }}>
-      <Text style={{color:'white'}}>MovieDLE</Text>
+    <View style={styles.container}>
+      <View
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'black',
+          padding: 10,
+          width: '50%',
+          marginVertical: 10,
+        }}>
+        <Text style={{ color: 'white' }}>MovieDLE</Text>
       </View>
-  {isGameOver && <Pressable testID='RetryButton' onPress={resetGame} style={{backgroundColor:'pink', borderWidth:2, borderColor: 'red',padding:10, borderRadius:10, marginBottom:10}}>
-<Text>Retry ?</Text>
-</Pressable>}
-{   !isGameOver &&    <SearchBar refreshMovieFoundList={handleButtonPress} movieDatabase={moviesFromDatabase} />
-}
+      {isGameOver && (
+        <Pressable
+          testID="RetryButton"
+          onPress={resetGame}
+          style={{
+            backgroundColor: 'pink',
+            borderWidth: 2,
+            borderColor: 'red',
+            padding: 10,
+            borderRadius: 10,
+            marginBottom: 10,
+          }}>
+          <Text>Retry ?</Text>
+        </Pressable>
+      )}
+      {!isGameOver && (
+        <SearchBar refreshMovieFoundList={handleButtonPress} movieDatabase={movieDatabase} />
+      )}
 
-{ moviesChosen.length>0 &&  <LifeBar lifePointsLost={lifePointsLost} />}
- {   moviesChosen.length>0 && <MovieStore movies={moviesChosen} />}
- </View>
+      {moviesChosen.length > 0 && <LifeBar lifePointsLost={lifePointsLost} />}
+      {moviesChosen.length > 0 && <MovieStore movies={moviesChosen} />}
+    </View>
   );
 }
 
@@ -55,8 +74,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems:'center'
+    alignItems: 'center',
   },
-
-
 });

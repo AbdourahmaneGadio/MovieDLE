@@ -5,7 +5,7 @@ import { FlatList, Pressable, ScrollView, StyleSheet, Text, TextInput, View } fr
 
 interface SearchBarProps {
   refreshMovieFoundList: (movie: Movie) => void;
-  movieDatabase : Movie[]
+  movieDatabase: Movie[];
 }
 
 export default function SearchBar({ refreshMovieFoundList, movieDatabase }: SearchBarProps) {
@@ -45,7 +45,6 @@ export default function SearchBar({ refreshMovieFoundList, movieDatabase }: Sear
   };
 
   return (
- 
     <View style={stylesSearchBar.container}>
       <View style={stylesSearchBar.searchBarContainer}>
         <TextInput
@@ -67,35 +66,38 @@ export default function SearchBar({ refreshMovieFoundList, movieDatabase }: Sear
         </Pressable>
       </View>
       <ScrollView style={stylesSearchBar.scrollView}>
-      <FlatList
-        data={moviesSearchCompatibles}
-        renderItem={({ item }) => (
-          <Pressable
-            style={{
-              height: 100, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly', borderColor: 'yellow',
-              borderWidth: 5, backgroundColor:'white',
-            }}
-            onPress={() => {
-              handleMovieSelected(item);
-            }}
-
-          >
-            <View style={stylesSearchBar.imageContainer} testID='movieListItemImage'>
-              <Image
-                style={stylesSearchBar.image}
-                source={item.Poster}
-                contentFit="cover"
-                transition={200}
-                contentPosition={'bottom center'}
-              />
-            </View>
-            <View style={{ width: '60%', alignItems: 'center' }}>
-              <Text>{item.Title}</Text>
-            </View>
-          </Pressable>
-        )}
-      />
-</ScrollView>
+        <FlatList
+          data={moviesSearchCompatibles}
+          renderItem={({ item }) => (
+            <Pressable
+              style={{
+                height: 100,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-evenly',
+                borderColor: 'yellow',
+                borderWidth: 5,
+                backgroundColor: 'white',
+              }}
+              onPress={() => {
+                handleMovieSelected(item);
+              }}>
+              <View style={stylesSearchBar.imageContainer} testID="movieListItemImage">
+                <Image
+                  style={stylesSearchBar.image}
+                  source={item.Poster}
+                  contentFit="cover"
+                  transition={200}
+                  contentPosition={'bottom center'}
+                />
+              </View>
+              <View style={{ width: '60%', alignItems: 'center' }}>
+                <Text>{item.Title}</Text>
+              </View>
+            </Pressable>
+          )}
+        />
+      </ScrollView>
       {text && moviesSearchCompatibles.length === 0 && (
         <Text testID="noMoviesAvailableText">No movies available...</Text>
       )}
@@ -106,32 +108,32 @@ export default function SearchBar({ refreshMovieFoundList, movieDatabase }: Sear
 const stylesSearchBar = StyleSheet.create({
   container: {
     width: '80%',
-    maxWidth:500,
-    maxHeight:250
+    maxWidth: 500,
+    maxHeight: 250,
   },
   searchBarContainer: {
     flexDirection: 'row',
     borderColor: 'darkblue',
-    borderWidth: 3,    borderRadius:10
+    borderWidth: 3,
+    borderRadius: 10,
   },
   textInput: {
     height: 40,
     width: '80%',
     backgroundColor: 'white',
-    textAlign:'center',
-    borderTopStartRadius:10,
-    borderBottomLeftRadius:10,
+    textAlign: 'center',
+    borderTopStartRadius: 10,
+    borderBottomLeftRadius: 10,
   },
   okButtonContainer: {
     backgroundColor: 'yellow',
     justifyContent: 'center',
     alignItems: 'center',
     width: '20%',
-    borderTopRightRadius:10,
-    borderBottomRightRadius:10,
-
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
   },
-  scrollView:{ maxHeight: '100%',},
+  scrollView: { maxHeight: '100%' },
   imageContainer: {
     backgroundColor: '#fff',
     alignItems: 'center',

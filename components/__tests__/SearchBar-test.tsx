@@ -5,7 +5,9 @@ import movieDatabase from '@/database/movies.json';
 
 describe('<SearchBar />', () => {
   test('Text renders correctly on SearchBar', () => {
-    const { getByTestId } = render(<SearchBar refreshMovieFoundList={() => null} movieDatabase={[]} />);
+    const { getByTestId } = render(
+      <SearchBar refreshMovieFoundList={() => null} movieDatabase={[]} />
+    );
 
     const searchBarTextInput = getByTestId('searchBarTextInput');
 
@@ -16,20 +18,24 @@ describe('<SearchBar />', () => {
   });
 
   test('The search bar text should change', () => {
-    const {  getByTestId } = render(<SearchBar  refreshMovieFoundList={() => null} movieDatabase={[]}/>);
+    const { getByTestId, getByPlaceholderText } = render(
+      <SearchBar refreshMovieFoundList={() => null} movieDatabase={[]} />
+    );
     const searchBarTextInput = getByTestId('searchBarTextInput');
-    const expectedText = 'expectedText'
+    const expectedText = 'expectedText';
     fireEvent.changeText(searchBarTextInput, expectedText);
-    expect(searchBarTextInput.props.value).toBe(expectedText)
+    expect(searchBarTextInput.props.value).toBe(expectedText);
   });
 
   test('The movie list should appear', () => {
-    const {  getByTestId , getAllByTestId} = render(<SearchBar  refreshMovieFoundList={() => null} movieDatabase={movieDatabase}/>);
+    const { getByTestId, getByPlaceholderText, getAllByTestId } = render(
+      <SearchBar refreshMovieFoundList={() => null} movieDatabase={movieDatabase} />
+    );
     const searchBarTextInput = getByTestId('searchBarTextInput');
-    const movieSearch = 'm'
+    const movieSearch = 'm';
     fireEvent.changeText(searchBarTextInput, movieSearch);
 
-    const movieListItemImage= getAllByTestId('movieListItemImage');
-    expect(movieListItemImage.length).toBeGreaterThanOrEqual(1)
+    const movieListItemImage = getAllByTestId('movieListItemImage');
+    expect(movieListItemImage.length).toBeGreaterThanOrEqual(1);
   });
 });

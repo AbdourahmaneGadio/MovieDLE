@@ -27,11 +27,10 @@ export default function MovieStore({ movies }: MovieStoreProps) {
         </View>
       </View>
 
-   
       <FlatList
         data={movies}
         testID="moviesList"
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={item => item.id.toString()}
         renderItem={({ item }) => (
           <View style={stylesMovieStore.movieItem} testID="movieItem">
             <View style={stylesMovieStore.imageContainer}>
@@ -57,7 +56,6 @@ export default function MovieStore({ movies }: MovieStoreProps) {
           </View>
         )}
       />
- 
     </View>
   );
 }
@@ -66,7 +64,7 @@ const stylesMovieStore = StyleSheet.create({
   container: {
     marginVertical: 10,
     width: '95%',
-    maxHeight:350
+    maxHeight: 350,
   },
   columnsContainer: {
     marginVertical: 15,
@@ -75,8 +73,8 @@ const stylesMovieStore = StyleSheet.create({
     alignItems: 'center',
   },
   columnText: {
-    backgroundColor:'white',
-    borderRadius:10
+    backgroundColor: 'white',
+    borderRadius: 10,
   },
   movieItem: {
     borderColor: 'yellow',
@@ -86,8 +84,9 @@ const stylesMovieStore = StyleSheet.create({
     alignItems: 'center',
     minHeight: 100,
     height: 150,
-    backgroundColor:'white',
-    borderRadius:20, marginBottom:10
+    backgroundColor: 'white',
+    borderRadius: 20,
+    marginBottom: 10,
   },
   imageContainer: {
     backgroundColor: '#fff',
@@ -96,14 +95,14 @@ const stylesMovieStore = StyleSheet.create({
     width: '20%',
     height: '100%',
     marginHorizontal: 'auto',
-    borderRadius:20,
+    borderRadius: 20,
   },
   image: {
     flex: 1,
     width: '100%',
     height: '100%',
     backgroundColor: '#0553',
-      borderRadius:15
+    borderRadius: 15,
   },
   textContainer: {
     width: '20%', // 100 divide by number of columns
