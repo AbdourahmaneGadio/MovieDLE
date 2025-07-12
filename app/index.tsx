@@ -13,8 +13,6 @@ export default function Index() {
   const [moviesFromDatabase, setMoviesFromDatabase] = useState(movieDatabase)
   const movieToFind = movieDatabase[0];
 
-  const backgroundImage = require('@/assets/images/background/bruno-guerrero-haCls4xhdqE-unsplash.jpg')
-
   const handleButtonPress = (singleMovieChosen: Movie) => {
     setMoviesChosen([...moviesChosen, singleMovieChosen]);
 
@@ -44,7 +42,7 @@ export default function Index() {
   {isGameOver && <Pressable testID='RetryButton' onPress={resetGame} style={{backgroundColor:'pink', borderWidth:2, borderColor: 'red',padding:10, borderRadius:10, marginBottom:10}}>
 <Text>Retry ?</Text>
 </Pressable>}
-{   !isGameOver &&    <SearchBar refreshMovieFoundList={handleButtonPress} movieDatabase={movieDatabase} />
+{   !isGameOver &&    <SearchBar refreshMovieFoundList={handleButtonPress} movieDatabase={moviesFromDatabase} />
 }
 
 { moviesChosen.length>0 &&  <LifeBar lifePointsLost={lifePointsLost} />}

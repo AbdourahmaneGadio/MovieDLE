@@ -1,10 +1,11 @@
-import { render } from '@testing-library/react-native';
+import { fireEvent, render } from '@testing-library/react-native';
 
 import SearchBar from '@/components/SearchBar';
+import movieDatabase from '@/database/movies.json';
 
 describe('<SearchBar />', () => {
   test('Text renders correctly on SearchBar', () => {
-    const { getByTestId } = render(<SearchBar refreshMovieFoundList={() => null} />);
+    const { getByTestId } = render(<SearchBar refreshMovieFoundList={() => null} movieDatabase={[]} />);
 
     const searchBarTextInput = getByTestId('searchBarTextInput');
 
@@ -14,10 +15,21 @@ describe('<SearchBar />', () => {
     expect(searchBarOkButton).toBeOnTheScreen();
   });
 
-  // test('No results available should appear', () => {
-  //   const { getByPlaceholderText, getByText, getByTestId } = render(<SearchBar onPress={()=>null}/>);
+  test('The search bar text should change', () => {
+    const {  getByTestId } = render(<SearchBar  refreshMovieFoundList={() => null} movieDatabase={[]}/>);
+    const searchBarTextInput = getByTestId('searchBarTextInput');
+    const expectedText = 'expectedText'
+    fireEvent.changeText(searchBarTextInput, expectedText);
+    expect(searchBarTextInput.props.value).toBe(expectedText)
+  });
 
-  //   const noMoviesAvailableText = getByTestId('noMoviesAvailableText')
-  //   expect(noMoviesAvailableText).toBeOnTheScreen()
-  // });
+  test('The movie list should appear', () => {
+    const {  getByTestId , getAllByTestId} = render(<SearchBar  refreshMovieFoundList={() => null} movieDatabase={movieDatabase}/>);
+    const searchBarTextInput = getByTestId('searchBarTextInput');
+    const movieSearch = 'm'
+    fireEvent.changeText(searchBarTextInput, movieSearch);
+
+    const movieListItemImage= getAllByTestId('movieListItemImage');
+    expect(movieListItemImage.length).toBeGreaterThanOrEqual(1)
+  });
 });
