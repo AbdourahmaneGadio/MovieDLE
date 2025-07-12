@@ -20,7 +20,6 @@ export default function SearchBar({ refreshMovieFoundList, movieDatabase }: Sear
         movie.Title.toLowerCase().includes(text)
       );
       setMoviesSearchCompatibles(filteredMovies);
-      console.log(filteredMovies);
     } else {
       setMoviesSearchCompatibles([]);
     }
@@ -81,7 +80,7 @@ export default function SearchBar({ refreshMovieFoundList, movieDatabase }: Sear
             }}
 
           >
-            <View style={stylesSearchBar.imageContainer}>
+            <View style={stylesSearchBar.imageContainer} testID='movieListItemImage'>
               <Image
                 style={stylesSearchBar.image}
                 source={item.Poster}
