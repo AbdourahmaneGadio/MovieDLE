@@ -47,9 +47,8 @@ jobs:
       - name: Lint and auto-fix
         run: npx expo lint --fix
 
-
       # Commit all changed files back to the repository
-      - name: Lint and auto-fix
+      - name: Commit the lint
         uses: stefanzweifel/git-auto-commit-action@v6
         with:
           commit_message: Apply lint on files
