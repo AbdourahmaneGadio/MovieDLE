@@ -28,22 +28,22 @@ export default function Index() {
   const resetGame = () => {
     setMoviesChosen([]);
     setMoviesFromDatabase(movieDatabase);
-    randomiseMovieToFind()
+    randomiseMovieToFind();
     setLifePointsLost(0);
     setIsGameOver(false);
   };
 
-  const randomiseMovieToFind=()=>{
-    const movieDatabaseLength = movieDatabase.length
-    const maxRandomMovieIndex = movieDatabaseLength - 1
-    const indexRandom = Math.floor(Math.random() * maxRandomMovieIndex)
-   const newMovieToFind = movieDatabase[indexRandom]
-    setMovieToFind(newMovieToFind)
-    console.debug(`The movie to find is : ${newMovieToFind.Title} (${newMovieToFind.Year})`)
-  }
+  const randomiseMovieToFind = () => {
+    const movieDatabaseLength = movieDatabase.length;
+    const maxRandomMovieIndex = movieDatabaseLength - 1;
+    const indexRandom = Math.floor(Math.random() * maxRandomMovieIndex);
+    const newMovieToFind = movieDatabase[indexRandom];
+    setMovieToFind(newMovieToFind);
+    console.debug(`The movie to find is : ${newMovieToFind.Title} (${newMovieToFind.Year})`);
+  };
 
   useEffect(() => {
-randomiseMovieToFind()
+    randomiseMovieToFind();
   }, []);
 
   return (
@@ -80,10 +80,11 @@ randomiseMovieToFind()
 
       {moviesChosen.length > 0 && <LifeBar lifePointsLost={lifePointsLost} />}
 
-      {moviesChosen.length > 0 && 
-            <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-      <MovieStore movies={moviesChosen} />  </ScrollView>}
-    
+      {moviesChosen.length > 0 && (
+        <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+          <MovieStore movies={moviesChosen} />{' '}
+        </ScrollView>
+      )}
     </View>
   );
 }
@@ -96,5 +97,5 @@ const styles = StyleSheet.create({
   },
   scrollViewContainer: {
     flexGrow: 1,
-  }
+  },
 });

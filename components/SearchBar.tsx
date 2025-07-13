@@ -98,7 +98,7 @@ export default function SearchBar({ refreshMovieFoundList, movieDatabase }: Sear
           )}
         />
       </ScrollView>
-     
+
       {/* {text && moviesSearchCompatibles.length === 0 && (
         <Text testID="noMoviesAvailableText">No movies available...</Text>
       )} */}

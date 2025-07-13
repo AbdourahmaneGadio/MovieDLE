@@ -8,7 +8,7 @@ interface MovieStoreProps {
 
 export default function MovieStore({ movies }: MovieStoreProps) {
   return (
-    <View style={stylesMovieStore.container} >
+    <View style={stylesMovieStore.container}>
       <View style={stylesMovieStore.columnsContainer} testID="movieColumns">
         <View style={[stylesMovieStore.textContainer, stylesMovieStore.columnText]}>
           <Text style={stylesMovieStore.textItem}>Image</Text>
