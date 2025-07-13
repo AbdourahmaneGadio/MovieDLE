@@ -18,7 +18,7 @@ describe('<SearchBar />', () => {
   });
 
   test('The search bar text should change', () => {
-    const { getByTestId, getByPlaceholderText } = render(
+    const { getByTestId } = render(
       <SearchBar refreshMovieFoundList={() => null} movieDatabase={[]} />
     );
     const searchBarTextInput = getByTestId('searchBarTextInput');
@@ -28,7 +28,7 @@ describe('<SearchBar />', () => {
   });
 
   test('The movie list should appear', () => {
-    const { getByTestId, getByPlaceholderText, getAllByTestId } = render(
+    const { getByTestId, getAllByTestId } = render(
       <SearchBar refreshMovieFoundList={() => null} movieDatabase={movieDatabase} />
     );
     const searchBarTextInput = getByTestId('searchBarTextInput');

@@ -3,7 +3,7 @@ import MovieStore from '@/components/MovieStore';
 import SearchBar from '@/components/SearchBar';
 import movieDatabase from '@/database/movies.json';
 import { useEffect, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ImageBackground, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Movie } from './types/types';
 
 export default function Index() {
@@ -11,7 +11,7 @@ export default function Index() {
   const [moviesChosen, setMoviesChosen] = useState<Movie[]>([]);
   const [isGameOver, setIsGameOver] = useState(false);
   const [moviesFromDatabase, setMoviesFromDatabase] = useState(movieDatabase);
-  const [movieToFind, setMovieToFind] = useState(movieDatabase[0]);
+  const [movieToFind, setMovieToFind] = useState<Movie>();
 
   const backgroundImage = require('@/assets/images/background/bruno-guerrero-haCls4xhdqE-unsplash.jpg');
 
@@ -47,54 +47,62 @@ export default function Index() {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <View
-        style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: 'black',
-          padding: 10,
-          width: '50%',
-          marginVertical: 10,
-        }}>
-        <Text style={{ color: 'white' }}>MovieDLE</Text>
-      </View>
-      {isGameOver && (
-        <Pressable
-          testID="RetryButton"
-          onPress={resetGame}
+    <ImageBackground source={backgroundImage} style={styles.imageBackground}>
+      <View style={styles.container}>
+        <View
           style={{
-            backgroundColor: 'pink',
-            borderWidth: 2,
-            borderColor: 'red',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'black',
             padding: 10,
-            borderRadius: 10,
-            marginBottom: 10,
+            width: '50%',
+            marginVertical: 10,
           }}>
-          <Text>Retry ?</Text>
-        </Pressable>
-      )}
-      {!isGameOver && (
-        <SearchBar refreshMovieFoundList={handleButtonPress} movieDatabase={movieDatabase} />
-      )}
+          <Text style={{ color: 'white' }}>MovieDLE</Text>
+        </View>
+        {isGameOver && (
+          <Pressable
+            testID="RetryButton"
+            onPress={resetGame}
+            style={{
+              backgroundColor: 'pink',
+              borderWidth: 2,
+              borderColor: 'red',
+              padding: 10,
+              borderRadius: 10,
+              marginBottom: 10,
+            }}>
+            <Text>Retry ?</Text>
+          </Pressable>
+        )}
+        {!isGameOver && (
+          <SearchBar refreshMovieFoundList={handleButtonPress} movieDatabase={moviesFromDatabase} />
+        )}
 
-      {moviesChosen.length > 0 && <LifeBar lifePointsLost={lifePointsLost} />}
+        {moviesChosen.length > 0 && <LifeBar lifePointsLost={lifePointsLost} />}
 
-      {moviesChosen.length > 0 && (
-        <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-          <MovieStore movies={moviesChosen} />{' '}
-        </ScrollView>
-      )}
-    </View>
+        {moviesChosen.length > 0 && (
+          <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+            <MovieStore movies={moviesChosen} />
+          </ScrollView>
+        )}
+      </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  imageBackground: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   scrollViewContainer: {
     flexGrow: 1,
   },

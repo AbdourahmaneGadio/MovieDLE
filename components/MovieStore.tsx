@@ -68,6 +68,7 @@ const stylesMovieStore = StyleSheet.create({
   columnsContainer: {
     marginVertical: 15,
     width: '100%',
+    height: 40,
     flexDirection: 'row',
     alignItems: 'center',
   },
