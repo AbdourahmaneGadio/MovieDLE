@@ -8,20 +8,20 @@ interface MovieStoreProps {
 
 export default function MovieStore({ movies }: MovieStoreProps) {
   return (
-    <View style={stylesMovieStore.container} testID="movieColumns">
-      <View style={stylesMovieStore.columnsContainer}>
+    <View style={stylesMovieStore.container} >
+      <View style={stylesMovieStore.columnsContainer} testID="movieColumns">
         <View style={[stylesMovieStore.textContainer, stylesMovieStore.columnText]}>
           <Text style={stylesMovieStore.textItem}>Image</Text>
-        </View>{' '}
+        </View>
         <View style={[stylesMovieStore.textContainer, stylesMovieStore.columnText]}>
           <Text style={stylesMovieStore.textItem}>Title</Text>
-        </View>{' '}
+        </View>
         <View style={[stylesMovieStore.textContainer, stylesMovieStore.columnText]}>
           <Text style={stylesMovieStore.textItem}>Genre(s)</Text>
-        </View>{' '}
+        </View>
         <View style={[stylesMovieStore.textContainer, stylesMovieStore.columnText]}>
           <Text style={stylesMovieStore.textItem}>Release year</Text>
-        </View>{' '}
+        </View>
         <View style={[stylesMovieStore.textContainer, stylesMovieStore.columnText]}>
           <Text style={stylesMovieStore.textItem}>Director</Text>
         </View>
@@ -63,8 +63,7 @@ export default function MovieStore({ movies }: MovieStoreProps) {
 const stylesMovieStore = StyleSheet.create({
   container: {
     marginVertical: 10,
-    width: '95%',
-    maxHeight: 350,
+    width: '100%',
   },
   columnsContainer: {
     marginVertical: 15,

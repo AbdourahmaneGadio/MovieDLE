@@ -2,8 +2,8 @@ import LifeBar from '@/components/LifeBar';
 import MovieStore from '@/components/MovieStore';
 import SearchBar from '@/components/SearchBar';
 import movieDatabase from '@/database/movies.json';
-import { useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Movie } from './types/types';
 
 export default function Index() {
@@ -11,7 +11,7 @@ export default function Index() {
   const [moviesChosen, setMoviesChosen] = useState<Movie[]>([]);
   const [isGameOver, setIsGameOver] = useState(false);
   const [moviesFromDatabase, setMoviesFromDatabase] = useState(movieDatabase);
-  const movieToFind = movieDatabase[0];
+  const [movieToFind, setMovieToFind] = useState(movieDatabase[0]);
 
   const backgroundImage = require('@/assets/images/background/bruno-guerrero-haCls4xhdqE-unsplash.jpg');
 
@@ -28,9 +28,23 @@ export default function Index() {
   const resetGame = () => {
     setMoviesChosen([]);
     setMoviesFromDatabase(movieDatabase);
+    randomiseMovieToFind()
     setLifePointsLost(0);
     setIsGameOver(false);
   };
+
+  const randomiseMovieToFind=()=>{
+    const movieDatabaseLength = movieDatabase.length
+    const maxRandomMovieIndex = movieDatabaseLength - 1
+    const indexRandom = Math.floor(Math.random() * maxRandomMovieIndex)
+   const newMovieToFind = movieDatabase[indexRandom]
+    setMovieToFind(newMovieToFind)
+    console.debug(`The movie to find is : ${newMovieToFind.Title} (${newMovieToFind.Year})`)
+  }
+
+  useEffect(() => {
+randomiseMovieToFind()
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -65,7 +79,11 @@ export default function Index() {
       )}
 
       {moviesChosen.length > 0 && <LifeBar lifePointsLost={lifePointsLost} />}
-      {moviesChosen.length > 0 && <MovieStore movies={moviesChosen} />}
+
+      {moviesChosen.length > 0 && 
+            <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+      <MovieStore movies={moviesChosen} />  </ScrollView>}
+    
     </View>
   );
 }
@@ -76,4 +94,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  scrollViewContainer: {
+    flexGrow: 1,
+  }
 });

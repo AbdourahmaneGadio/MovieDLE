@@ -27,18 +27,18 @@ export default function SearchBar({ refreshMovieFoundList, movieDatabase }: Sear
   };
 
   const handleMovieSelected = (item: Movie) => {
-    console.log(
+    console.debug(
       `Number of movies available before the execution of the code : ${moviesAvailable.length}`
     );
     setMoviesAvailable(moviesAvailable => moviesAvailable.filter(movie => movie.id !== item.id));
-    console.log(
+    console.debug(
       `Number of movies available after the execution of the code : ${moviesAvailable.length}`
     );
 
-    console.log(`We remove all movies from the search bar`);
+    console.debug(`We remove all movies from the search bar`);
     setMoviesSearchCompatibles([]);
 
-    console.log(`We clean the text from the search bar`);
+    console.debug(`We clean the text from the search bar`);
     onChangeText('');
 
     refreshMovieFoundList(item);
@@ -98,9 +98,10 @@ export default function SearchBar({ refreshMovieFoundList, movieDatabase }: Sear
           )}
         />
       </ScrollView>
-      {text && moviesSearchCompatibles.length === 0 && (
+     
+      {/* {text && moviesSearchCompatibles.length === 0 && (
         <Text testID="noMoviesAvailableText">No movies available...</Text>
-      )}
+      )} */}
     </View>
   );
 }
