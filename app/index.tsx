@@ -3,20 +3,39 @@ import MovieStore from '@/components/MovieStore';
 import SearchBar from '@/components/SearchBar';
 import movieDatabase from '@/database/movies.json';
 import { useEffect, useState } from 'react';
-import { ImageBackground, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  ImageBackground,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { Movie } from './types/types';
 
 export default function Index() {
-  const [lifePointsLost, setLifePointsLost] = useState(0);
-  const [moviesChosen, setMoviesChosen] = useState<Movie[]>([]);
-  const [isGameOver, setIsGameOver] = useState(false);
-  const [moviesFromDatabase, setMoviesFromDatabase] = useState(movieDatabase);
-  const [movieToFind, setMovieToFind] = useState<Movie>();
+  const [lifePointsLost, setLifePointsLost] =
+    useState(0);
+  const [moviesChosen, setMoviesChosen] =
+    useState<Movie[]>([]);
+  const [isGameOver, setIsGameOver] =
+    useState(false);
+  const [
+    moviesFromDatabase,
+    setMoviesFromDatabase,
+  ] = useState(movieDatabase);
+  const [movieToFind, setMovieToFind] =
+    useState<Movie>();
 
   const backgroundImage = require('@/assets/images/background/bruno-guerrero-haCls4xhdqE-unsplash.jpg');
 
-  const handleButtonPress = (singleMovieChosen: Movie) => {
-    setMoviesChosen([...moviesChosen, singleMovieChosen]);
+  const handleButtonPress = (
+    singleMovieChosen: Movie
+  ) => {
+    setMoviesChosen([
+      ...moviesChosen,
+      singleMovieChosen,
+    ]);
 
     if (singleMovieChosen !== movieToFind) {
       setLifePointsLost(lifePointsLost + 10);
@@ -34,12 +53,19 @@ export default function Index() {
   };
 
   const randomiseMovieToFind = () => {
-    const movieDatabaseLength = movieDatabase.length;
-    const maxRandomMovieIndex = movieDatabaseLength - 1;
-    const indexRandom = Math.floor(Math.random() * maxRandomMovieIndex);
-    const newMovieToFind = movieDatabase[indexRandom];
+    const movieDatabaseLength =
+      movieDatabase.length;
+    const maxRandomMovieIndex =
+      movieDatabaseLength - 1;
+    const indexRandom = Math.floor(
+      Math.random() * maxRandomMovieIndex
+    );
+    const newMovieToFind =
+      movieDatabase[indexRandom];
     setMovieToFind(newMovieToFind);
-    console.debug(`The movie to find is : ${newMovieToFind.Title} (${newMovieToFind.Year})`);
+    console.debug(
+      `The movie to find is : ${newMovieToFind.Title} (${newMovieToFind.Year})`
+    );
   };
 
   useEffect(() => {
@@ -47,7 +73,9 @@ export default function Index() {
   }, []);
 
   return (
-    <ImageBackground source={backgroundImage} style={styles.imageBackground}>
+    <ImageBackground
+      source={backgroundImage}
+      style={styles.imageBackground}>
       <View style={styles.container}>
         <View
           style={{
@@ -58,7 +86,9 @@ export default function Index() {
             width: '50%',
             marginVertical: 10,
           }}>
-          <Text style={{ color: 'white' }}>MovieDLE</Text>
+          <Text style={{ color: 'white' }}>
+            MovieDLE
+          </Text>
         </View>
         {isGameOver && (
           <Pressable
@@ -76,13 +106,27 @@ export default function Index() {
           </Pressable>
         )}
         {!isGameOver && (
-          <SearchBar refreshMovieFoundList={handleButtonPress} movieDatabase={moviesFromDatabase} />
+          <SearchBar
+            refreshMovieFoundList={
+              handleButtonPress
+            }
+            movieDatabase={moviesFromDatabase}
+          />
         )}
 
-        {moviesChosen.length > 0 && <LifeBar lifePointsLost={lifePointsLost} />}
+        {moviesChosen.length > 0 && (
+          <LifeBar
+            lifePointsLost={lifePointsLost}
+          />
+        )}
 
         {moviesChosen.length > 0 && (
-          <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+          <ScrollView
+            contentContainerStyle={
+              styles.scrollViewContainer
+            }
+            style={{ width: '95%' }}
+            testID="scrollViewMovieStore">
             <MovieStore movies={moviesChosen} />
           </ScrollView>
         )}
@@ -105,5 +149,6 @@ const styles = StyleSheet.create({
 
   scrollViewContainer: {
     flexGrow: 1,
+    width: '100%',
   },
 });

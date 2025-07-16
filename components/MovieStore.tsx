@@ -1,29 +1,80 @@
 import { Movie } from '@/app/types/types';
 import { Image } from 'expo-image';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
 interface MovieStoreProps {
   movies: Movie[];
 }
 
-export default function MovieStore({ movies }: MovieStoreProps) {
+export default function MovieStore({
+  movies,
+}: MovieStoreProps) {
   return (
-    <View style={stylesMovieStore.container}>
-      <View style={stylesMovieStore.columnsContainer} testID="movieColumns">
-        <View style={[stylesMovieStore.textContainer, stylesMovieStore.columnText]}>
-          <Text style={stylesMovieStore.textItem}>Image</Text>
+    <View
+      style={stylesMovieStore.container}
+      testID="movieStoreContainer">
+      <View
+        style={stylesMovieStore.columnsContainer}
+        testID="movieColumns">
+        <View
+          style={[
+            stylesMovieStore.columnTextContainer,
+          ]}>
+          <Text
+            style={
+              stylesMovieStore.columnTextItem
+            }>
+            Image
+          </Text>
         </View>
-        <View style={[stylesMovieStore.textContainer, stylesMovieStore.columnText]}>
-          <Text style={stylesMovieStore.textItem}>Title</Text>
+        <View
+          style={[
+            stylesMovieStore.columnTextContainer,
+          ]}>
+          <Text
+            style={
+              stylesMovieStore.columnTextItem
+            }>
+            Title
+          </Text>
         </View>
-        <View style={[stylesMovieStore.textContainer, stylesMovieStore.columnText]}>
-          <Text style={stylesMovieStore.textItem}>Genre(s)</Text>
+        <View
+          style={[
+            stylesMovieStore.columnTextContainer,
+          ]}>
+          <Text
+            style={
+              stylesMovieStore.columnTextItem
+            }>
+            Genre(s)
+          </Text>
         </View>
-        <View style={[stylesMovieStore.textContainer, stylesMovieStore.columnText]}>
-          <Text style={stylesMovieStore.textItem}>Release year</Text>
+        <View
+          style={[
+            stylesMovieStore.columnTextContainer,
+          ]}>
+          <Text
+            style={
+              stylesMovieStore.columnTextItem
+            }>
+            Release year
+          </Text>
         </View>
-        <View style={[stylesMovieStore.textContainer, stylesMovieStore.columnText]}>
-          <Text style={stylesMovieStore.textItem}>Director</Text>
+        <View
+          style={[
+            stylesMovieStore.columnTextContainer,
+          ]}>
+          <Text
+            style={
+              stylesMovieStore.columnTextItem
+            }>
+            Director
+          </Text>
         </View>
       </View>
 
@@ -32,8 +83,13 @@ export default function MovieStore({ movies }: MovieStoreProps) {
         testID="moviesList"
         keyExtractor={item => item.id.toString()}
         renderItem={({ item }) => (
-          <View style={stylesMovieStore.movieItem} testID="movieItem">
-            <View style={stylesMovieStore.imageContainer}>
+          <View
+            style={stylesMovieStore.movieItem}
+            testID="movieItem">
+            <View
+              style={
+                stylesMovieStore.imageContainer
+              }>
               <Image
                 style={stylesMovieStore.image}
                 source={item.Poster}
@@ -41,17 +97,41 @@ export default function MovieStore({ movies }: MovieStoreProps) {
                 transition={1000}
               />
             </View>
-            <View style={stylesMovieStore.textContainer}>
-              <Text style={stylesMovieStore.textItem}>{item.Title}</Text>
+            <View
+              style={
+                stylesMovieStore.textContainer
+              }>
+              <Text
+                style={stylesMovieStore.textItem}>
+                {item.Title}
+              </Text>
             </View>
-            <View style={stylesMovieStore.textContainer}>
-              <Text style={stylesMovieStore.textItem}>{item.Genre}</Text>
+            <View
+              style={
+                stylesMovieStore.textContainer
+              }>
+              <Text
+                style={stylesMovieStore.textItem}>
+                {item.Genre}
+              </Text>
             </View>
-            <View style={stylesMovieStore.textContainer}>
-              <Text style={stylesMovieStore.textItem}>{item.Year}</Text>
+            <View
+              style={
+                stylesMovieStore.textContainer
+              }>
+              <Text
+                style={stylesMovieStore.textItem}>
+                {item.Year}
+              </Text>
             </View>
-            <View style={stylesMovieStore.textContainer}>
-              <Text style={stylesMovieStore.textItem}>{item.Director}</Text>
+            <View
+              style={
+                stylesMovieStore.textContainer
+              }>
+              <Text
+                style={stylesMovieStore.textItem}>
+                {item.Director}
+              </Text>
             </View>
           </View>
         )}
@@ -72,19 +152,25 @@ const stylesMovieStore = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  columnText: {
+  columnTextContainer: {
+    width: '18%', // 100 divide by number of columns
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: 'white',
     borderRadius: 10,
+    marginHorizontal: 'auto',
+  },
+  columnTextItem: {
+    textAlign: 'center',
+    fontSize: 15,
   },
   movieItem: {
-    borderColor: 'yellow',
-    borderWidth: 5,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignItems: 'center',
     minHeight: 100,
     height: 150,
-    backgroundColor: 'white',
     borderRadius: 20,
     marginBottom: 10,
   },
@@ -92,7 +178,7 @@ const stylesMovieStore = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '20%',
+    width: '18%',
     height: '100%',
     marginHorizontal: 'auto',
     borderRadius: 20,
@@ -105,12 +191,16 @@ const stylesMovieStore = StyleSheet.create({
     borderRadius: 15,
   },
   textContainer: {
-    width: '20%', // 100 divide by number of columns
+    width: '18%', // 100 divide by number of columns
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
+    marginHorizontal: 'auto',
+    backgroundColor: 'white',
+    borderRadius: 10,
   },
   textItem: {
     textAlign: 'center',
+    fontSize: 12,
   },
 });
