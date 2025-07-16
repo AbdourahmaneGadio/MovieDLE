@@ -82,17 +82,13 @@ describe('<SearchBar />', () => {
   });
 
   test('The list should disappear', async () => {
-    const {
-      getByTestId,
-      getAllByTestId,
-      getByText,
-      getByPlaceholderText,
-    } = render(
-      <SearchBar
-        refreshMovieFoundList={() => null}
-        movieDatabase={movieDatabase}
-      />
-    );
+    const { getByTestId, getAllByTestId } =
+      render(
+        <SearchBar
+          refreshMovieFoundList={() => null}
+          movieDatabase={movieDatabase}
+        />
+      );
 
     // Init the search bar
     const searchBarTextInput = getByTestId(
@@ -123,7 +119,7 @@ describe('<SearchBar />', () => {
     await waitFor(
       () => movieListPressable.findLast
     );
-    expect(movieList).not.toBeOnTheScreen;
+    expect(movieList).not.toBeOnTheScreen();
   });
 
   test('The text in the search bar should be empty', () => {
