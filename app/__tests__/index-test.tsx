@@ -1,11 +1,15 @@
-import { render } from '@testing-library/react-native';
+import {
+  cleanup,
+  render,
+} from '@testing-library/react-native';
 
 import Index from '@/app/index';
 
-describe('<Index />', () => {
-  test('Text renders correctly on Index', () => {
-    const { getByText } = render(<Index />);
+afterEach(cleanup);
 
-    getByText('MovieDLE');
+describe('<Index />', () => {
+  test('Index renders correctly', () => {
+    const tree = render(<Index />).toJSON;
+    expect(tree).toMatchSnapshot();
   });
 });

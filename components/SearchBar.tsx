@@ -68,6 +68,7 @@ export default function SearchBar({ refreshMovieFoundList, movieDatabase }: Sear
       <ScrollView style={stylesSearchBar.scrollView}>
         <FlatList
           data={moviesSearchCompatibles}
+          testID="movieList"
           renderItem={({ item }) => (
             <Pressable
               style={{
@@ -81,8 +82,9 @@ export default function SearchBar({ refreshMovieFoundList, movieDatabase }: Sear
               }}
               onPress={() => {
                 handleMovieSelected(item);
-              }}>
-              <View style={stylesSearchBar.imageContainer} testID="movieListItemImage">
+              }}
+              testID="movieListPressable">
+              <View style={stylesSearchBar.imageContainer}>
                 <Image
                   style={stylesSearchBar.image}
                   source={item.Poster}
