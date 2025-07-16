@@ -82,6 +82,8 @@ export default function MovieStore({
         data={movies}
         testID="moviesList"
         keyExtractor={item => item.id.toString()}
+        inverted
+        scrollEnabled={false}
         renderItem={({ item }) => (
           <View
             style={stylesMovieStore.movieItem}

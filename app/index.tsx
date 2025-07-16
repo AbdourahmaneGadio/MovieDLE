@@ -76,7 +76,12 @@ export default function Index() {
     <ImageBackground
       source={backgroundImage}
       style={styles.imageBackground}>
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          { paddingTop: 50 },
+        ]}
+        testID="indexContainer">
         <View
           style={{
             alignItems: 'center',
@@ -84,7 +89,7 @@ export default function Index() {
             backgroundColor: 'lightgrey',
             padding: 10,
             minWidth: 200,
-            maxWidth: '20%',
+            width: '40%',
             marginVertical: 10,
             borderRadius: 10,
             borderColor: 'white',
@@ -134,6 +139,7 @@ export default function Index() {
               styles.scrollViewContainer
             }
             style={{ width: '95%' }}
+            scrollEnabled={true}
             testID="scrollViewMovieStore">
             <MovieStore movies={moviesChosen} />
           </ScrollView>
