@@ -18,6 +18,10 @@ export default function LifeBar({
           backgroundColor: 'green',
           borderTopLeftRadius: 5,
           borderBottomLeftRadius: 5,
+          borderTopRightRadius:
+            lifePointsRemaning === 100 ? 5 : 0,
+          borderBottomRightRadius:
+            lifePointsRemaning === 100 ? 5 : 0,
           width: `${lifePointsRemaning}%`,
           visibility:
             lifePointsRemaning > 0
@@ -28,6 +32,10 @@ export default function LifeBar({
       <View
         style={{
           backgroundColor: 'red',
+          borderTopLeftRadius:
+            lifePointsRemaning === 0 ? 5 : 0,
+          borderBottomLeftRadius:
+            lifePointsRemaning === 0 ? 5 : 0,
           borderTopRightRadius: 5,
           borderBottomRightRadius: 5,
           width: `${lifePointsLost}%`,
