@@ -81,12 +81,20 @@ export default function Index() {
           style={{
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: 'black',
+            backgroundColor: 'lightgrey',
             padding: 10,
-            width: '50%',
+            minWidth: 200,
+            maxWidth: '20%',
             marginVertical: 10,
+            borderRadius: 10,
+            borderColor: 'white',
+            borderWidth: 3,
           }}>
-          <Text style={{ color: 'white' }}>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 25,
+            }}>
             MovieDLE
           </Text>
         </View>

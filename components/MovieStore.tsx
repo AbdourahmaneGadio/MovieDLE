@@ -198,6 +198,7 @@ const stylesMovieStore = StyleSheet.create({
     marginHorizontal: 'auto',
     backgroundColor: 'white',
     borderRadius: 10,
+    padding: 5,
   },
   textItem: {
     textAlign: 'center',
