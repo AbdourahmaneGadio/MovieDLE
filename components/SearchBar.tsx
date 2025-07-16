@@ -73,18 +73,19 @@ export default function SearchBar({
   return (
     <View style={stylesSearchBar.container}>
       <View
-        style={
-[          stylesSearchBar.searchBarContainer  , {
-  borderBottomLeftRadius:
-    moviesSearchCompatibles.length > 0
-      ? 0
-      : 10,
-  borderBottomRightRadius:
-    moviesSearchCompatibles.length > 0
-      ? 0
-      : 10,
-}
-]        }>
+        style={[
+          stylesSearchBar.searchBarContainer,
+          {
+            borderBottomLeftRadius:
+              moviesSearchCompatibles.length > 0
+                ? 0
+                : 10,
+            borderBottomRightRadius:
+              moviesSearchCompatibles.length > 0
+                ? 0
+                : 10,
+          },
+        ]}>
         <TextInput
           style={stylesSearchBar.textInput}
           onChangeText={searchAvailableMovies}
@@ -125,9 +126,26 @@ export default function SearchBar({
                 borderColor: 'darkblue',
                 borderLeftWidth: 3,
                 borderRightWidth: 3,
-                borderBottomWidth: index===moviesSearchCompatibles.length-1 ? 3 : 0,
+                borderBottomWidth:
+                  index ===
+                  moviesSearchCompatibles.length -
+                    1
+                    ? 3
+                    : 0,
                 backgroundColor: 'white',
-                borderBottomLeftRadius:index===moviesSearchCompatibles.length-1 ? 10:0, borderBottomRightRadius:index===moviesSearchCompatibles.length-1 ? 10:0, overflow:'hidden'
+                borderBottomLeftRadius:
+                  index ===
+                  moviesSearchCompatibles.length -
+                    1
+                    ? 10
+                    : 0,
+                borderBottomRightRadius:
+                  index ===
+                  moviesSearchCompatibles.length -
+                    1
+                    ? 10
+                    : 0,
+                overflow: 'hidden',
               }}
               onPress={() => {
                 handleMovieSelected(item);
@@ -177,7 +195,7 @@ const stylesSearchBar = StyleSheet.create({
     borderColor: 'darkblue',
     borderWidth: 3,
     borderRadius: 10,
-    overflow:'hidden'
+    overflow: 'hidden',
   },
   textInput: {
     height: 40,
