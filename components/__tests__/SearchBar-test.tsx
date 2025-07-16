@@ -2,7 +2,7 @@ import {
   cleanup,
   fireEvent,
   render,
-  waitFor
+  waitFor,
 } from '@testing-library/react-native';
 
 import { Movie } from '@/app/types/types';
@@ -53,13 +53,12 @@ describe('<SearchBar />', () => {
   });
 
   test('The movie list should appear', () => {
-    const { getByTestId,  } =
-      render(
-        <SearchBar
-          refreshMovieFoundList={() => null}
-          movieDatabase={movieDatabase}
-        />
-      );
+    const { getByTestId } = render(
+      <SearchBar
+        refreshMovieFoundList={() => null}
+        movieDatabase={movieDatabase}
+      />
+    );
 
     // Init the search bar
     const searchBarTextInput = getByTestId(
@@ -83,13 +82,17 @@ describe('<SearchBar />', () => {
   });
 
   test('The list should disappear', async () => {
-    const { getByTestId, getAllByTestId ,getByText, getByPlaceholderText} =
-      render(
-        <SearchBar
-          refreshMovieFoundList={() => null}
-          movieDatabase={movieDatabase}
-        />
-      );
+    const {
+      getByTestId,
+      getAllByTestId,
+      getByText,
+      getByPlaceholderText,
+    } = render(
+      <SearchBar
+        refreshMovieFoundList={() => null}
+        movieDatabase={movieDatabase}
+      />
+    );
 
     // Init the search bar
     const searchBarTextInput = getByTestId(
@@ -117,8 +120,10 @@ describe('<SearchBar />', () => {
     fireEvent.press(movieListPressable.findLast);
 
     // The list should not be on screen
-    await waitFor(() => movieListPressable.findLast);
-    expect(movieList).not.toBeOnTheScreen
+    await waitFor(
+      () => movieListPressable.findLast
+    );
+    expect(movieList).not.toBeOnTheScreen;
   });
 
   test('The text in the search bar should be empty', () => {
@@ -150,7 +155,7 @@ describe('<SearchBar />', () => {
     );
 
     // Tap on the last movie of the list
-    fireEvent.press( movieListPressable.findLast);
+    fireEvent.press(movieListPressable.findLast);
 
     // The list should not be on the screen
     expect(searchBarTextInput).toHaveTextContent(

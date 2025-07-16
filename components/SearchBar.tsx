@@ -1,24 +1,42 @@
 import { Movie } from '@/app/types/types';
 import { Image } from 'expo-image';
 import { useState } from 'react';
-import { FlatList, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  FlatList,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 
 interface SearchBarProps {
   refreshMovieFoundList: (movie: Movie) => void;
   movieDatabase: Movie[];
 }
 
-export default function SearchBar({ refreshMovieFoundList, movieDatabase }: SearchBarProps) {
+export default function SearchBar({
+  refreshMovieFoundList,
+  movieDatabase,
+}: SearchBarProps) {
   const [text, onChangeText] = useState('');
 
-  const [moviesAvailable, setMoviesAvailable] = useState<Movie[]>(movieDatabase);
-  const [moviesSearchCompatibles, setMoviesSearchCompatibles] = useState<Movie[]>([]);
+  const [moviesAvailable, setMoviesAvailable] =
+    useState<Movie[]>(movieDatabase);
+  const [
+    moviesSearchCompatibles,
+    setMoviesSearchCompatibles,
+  ] = useState<Movie[]>([]);
 
-  const searchAvailableMovies = (text: string) => {
+  const searchAvailableMovies = (
+    text: string
+  ) => {
     if (text) {
-      const filteredMovies = moviesAvailable.filter(movie =>
-        movie.Title.toLowerCase().includes(text)
-      );
+      const filteredMovies =
+        moviesAvailable.filter(movie =>
+          movie.Title.toLowerCase().includes(text)
+        );
       setMoviesSearchCompatibles(filteredMovies);
     } else {
       setMoviesSearchCompatibles([]);
@@ -30,15 +48,23 @@ export default function SearchBar({ refreshMovieFoundList, movieDatabase }: Sear
     console.debug(
       `Number of movies available before the execution of the code : ${moviesAvailable.length}`
     );
-    setMoviesAvailable(moviesAvailable => moviesAvailable.filter(movie => movie.id !== item.id));
+    setMoviesAvailable(moviesAvailable =>
+      moviesAvailable.filter(
+        movie => movie.id !== item.id
+      )
+    );
     console.debug(
       `Number of movies available after the execution of the code : ${moviesAvailable.length}`
     );
 
-    console.debug(`We remove all movies from the search bar`);
+    console.debug(
+      `We remove all movies from the search bar`
+    );
     setMoviesSearchCompatibles([]);
 
-    console.debug(`We clean the text from the search bar`);
+    console.debug(
+      `We clean the text from the search bar`
+    );
     onChangeText('');
 
     refreshMovieFoundList(item);
@@ -46,7 +72,10 @@ export default function SearchBar({ refreshMovieFoundList, movieDatabase }: Sear
 
   return (
     <View style={stylesSearchBar.container}>
-      <View style={stylesSearchBar.searchBarContainer}>
+      <View
+        style={
+          stylesSearchBar.searchBarContainer
+        }>
         <TextInput
           style={stylesSearchBar.textInput}
           onChangeText={searchAvailableMovies}
@@ -55,17 +84,25 @@ export default function SearchBar({ refreshMovieFoundList, movieDatabase }: Sear
           testID="searchBarTextInput"
         />
         <Pressable
-          style={stylesSearchBar.okButtonContainer}
+          style={
+            stylesSearchBar.okButtonContainer
+          }
           onPress={() => {
-            if (moviesSearchCompatibles.length > 0) {
-              const item = moviesSearchCompatibles[0];
+            if (
+              moviesSearchCompatibles.length > 0
+            ) {
+              const item =
+                moviesSearchCompatibles[0];
               handleMovieSelected(item);
             }
           }}>
-          <Text testID="searchBarOkButton">OK</Text>
+          <Text testID="searchBarOkButton">
+            OK
+          </Text>
         </Pressable>
       </View>
-      <ScrollView style={stylesSearchBar.scrollView}>
+      <ScrollView
+        style={stylesSearchBar.scrollView}>
         <FlatList
           data={moviesSearchCompatibles}
           testID="movieList"
@@ -84,16 +121,25 @@ export default function SearchBar({ refreshMovieFoundList, movieDatabase }: Sear
                 handleMovieSelected(item);
               }}
               testID="movieListPressable">
-              <View style={stylesSearchBar.imageContainer}>
+              <View
+                style={
+                  stylesSearchBar.imageContainer
+                }>
                 <Image
                   style={stylesSearchBar.image}
                   source={item.Poster}
                   contentFit="cover"
                   transition={200}
-                  contentPosition={'bottom center'}
+                  contentPosition={
+                    'bottom center'
+                  }
                 />
               </View>
-              <View style={{ width: '60%', alignItems: 'center' }}>
+              <View
+                style={{
+                  width: '60%',
+                  alignItems: 'center',
+                }}>
                 <Text>{item.Title}</Text>
               </View>
             </Pressable>
