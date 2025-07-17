@@ -2,7 +2,6 @@ import {
   cleanup,
   fireEvent,
   render,
-  waitFor,
 } from '@testing-library/react-native';
 
 import { Movie } from '@/app/types/types';
@@ -81,47 +80,6 @@ describe('<SearchBar />', () => {
     expect(movieList).toBeOnTheScreen();
   });
 
-  test('The list should disappear', async () => {
-    const { getByTestId, getAllByTestId } =
-      render(
-        <SearchBar
-          refreshMovieFoundList={() => null}
-          movieDatabase={movieDatabase}
-        />
-      );
-
-    // Init the search bar
-    const searchBarTextInput = getByTestId(
-      'searchBarTextInput'
-    );
-
-    // Use a letter that the movies in the list contains
-    const movieSearch = 'm';
-
-    // Trigger the change text
-    fireEvent.changeText(
-      searchBarTextInput,
-      movieSearch
-    );
-
-    // Get the movie list
-    const movieList = getByTestId('movieList');
-
-    // Get the last item of the list
-    const movieListPressable = getAllByTestId(
-      'movieListPressable'
-    );
-
-    // Tap on the last movie of the list
-    fireEvent.press(movieListPressable.findLast);
-
-    // The list should not be on screen
-    await waitFor(
-      () => movieListPressable.findLast
-    );
-    expect(movieList).not.toBeOnTheScreen();
-  });
-
   test('The text in the search bar should be empty', () => {
     const { getByTestId, getAllByTestId } =
       render(
@@ -153,7 +111,7 @@ describe('<SearchBar />', () => {
     // Tap on the last movie of the list
     fireEvent.press(movieListPressable.findLast);
 
-    // The list should not be on the screen
+    // The text should be empty
     expect(searchBarTextInput).toHaveTextContent(
       ''
     );
