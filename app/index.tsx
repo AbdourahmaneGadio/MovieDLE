@@ -25,7 +25,7 @@ export default function Index() {
     setMoviesFromDatabase,
   ] = useState(movieDatabase);
   const [movieToFind, setMovieToFind] =
-    useState<Movie>();
+    useState<Movie>(moviesFromDatabase[0]);
 
   const backgroundImage = require('@/assets/images/background/bruno-guerrero-haCls4xhdqE-unsplash.jpg');
 
@@ -141,7 +141,10 @@ export default function Index() {
             style={{ width: '95%' }}
             scrollEnabled={true}
             testID="scrollViewMovieStore">
-            <MovieStore movies={moviesChosen} />
+            <MovieStore
+              movies={moviesChosen}
+              movieToFind={movieToFind}
+            />
           </ScrollView>
         )}
       </View>

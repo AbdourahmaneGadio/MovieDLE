@@ -9,11 +9,55 @@ import {
 
 interface MovieStoreProps {
   movies: Movie[];
+  movieToFind: Movie;
 }
 
 export default function MovieStore({
   movies,
+  movieToFind,
 }: MovieStoreProps) {
+  const checkMovieProperties = function (
+    movieItem: Movie,
+    columnType: string
+  ) {
+    let columnBackgroundColor = 'white';
+
+    switch (columnType) {
+      case 'Title':
+        columnBackgroundColor =
+          movieItem.Title === movieToFind.Title
+            ? 'green'
+            : 'red';
+        break;
+      case 'Genre':
+        columnBackgroundColor =
+          movieItem.Genre === movieToFind.Genre
+            ? 'green'
+            : movieToFind.Genre.toLowerCase().includes(movieItem.Genre.toLowerCase()) ? 'orange': 'red';
+        break;
+      case 'Release Year':
+        columnBackgroundColor =
+          movieItem.Year === movieToFind.Year
+            ? 'green'
+            : 'red';
+        break;
+      case 'Director':
+        columnBackgroundColor =
+          movieItem.Director ===
+          movieToFind.Director
+            ? 'green'
+            :   movieToFind.Director.toLowerCase().includes(movieItem.Director.toLowerCase()) ? 'orange': 'red';
+        break;
+      default:
+        columnBackgroundColor = 'white';
+        break;
+    }
+
+    return {
+      backgroundColor: columnBackgroundColor,
+    };
+  };
+
   return (
     <View
       style={stylesMovieStore.container}
@@ -100,36 +144,52 @@ export default function MovieStore({
               />
             </View>
             <View
-              style={
-                stylesMovieStore.textContainer
-              }>
+              style={[
+                stylesMovieStore.textContainer,
+                checkMovieProperties(
+                  item,
+                  'Title'
+                ),
+              ]}>
               <Text
                 style={stylesMovieStore.textItem}>
                 {item.Title}
               </Text>
             </View>
             <View
-              style={
-                stylesMovieStore.textContainer
-              }>
+              style={[
+                stylesMovieStore.textContainer,
+                checkMovieProperties(
+                  item,
+                  'Genre'
+                ),
+              ]}>
               <Text
                 style={stylesMovieStore.textItem}>
                 {item.Genre}
               </Text>
             </View>
             <View
-              style={
-                stylesMovieStore.textContainer
-              }>
+              style={[
+                stylesMovieStore.textContainer,
+                checkMovieProperties(
+                  item,
+                  'Release Year'
+                ),
+              ]}>
               <Text
                 style={stylesMovieStore.textItem}>
                 {item.Year}
               </Text>
             </View>
             <View
-              style={
-                stylesMovieStore.textContainer
-              }>
+              style={[
+                stylesMovieStore.textContainer,
+                checkMovieProperties(
+                  item,
+                  'Director'
+                ),
+              ]}>
               <Text
                 style={stylesMovieStore.textItem}>
                 {item.Director}

@@ -11,7 +11,10 @@ afterEach(cleanup);
 describe('<MovieStore />', () => {
   test('MovieStore renders correctly', () => {
     const tree = render(
-      <MovieStore movies={[]} />
+      <MovieStore
+        movies={[]}
+        movieToFind={movieDatabase[0]}
+      />
     ).toJSON;
     expect(tree).toMatchSnapshot();
   });
@@ -19,7 +22,10 @@ describe('<MovieStore />', () => {
   test('Movies should be in the list', () => {
     const { getByTestId, getAllByTestId } =
       render(
-        <MovieStore movies={movieDatabase} />
+        <MovieStore
+          movies={movieDatabase}
+          movieToFind={movieDatabase[0]}
+        />
       );
 
     const movieList = getByTestId('moviesList');
