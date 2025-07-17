@@ -33,7 +33,11 @@ export default function MovieStore({
         columnBackgroundColor =
           movieItem.Genre === movieToFind.Genre
             ? 'green'
-            : movieToFind.Genre.toLowerCase().includes(movieItem.Genre.toLowerCase()) ? 'orange': 'red';
+            : movieToFind.Genre.toLowerCase().includes(
+                  movieItem.Genre.toLowerCase()
+                )
+              ? 'orange'
+              : 'red';
         break;
       case 'Release Year':
         columnBackgroundColor =
@@ -46,7 +50,11 @@ export default function MovieStore({
           movieItem.Director ===
           movieToFind.Director
             ? 'green'
-            :   movieToFind.Director.toLowerCase().includes(movieItem.Director.toLowerCase()) ? 'orange': 'red';
+            : movieToFind.Director.toLowerCase().includes(
+                  movieItem.Director.toLowerCase()
+                )
+              ? 'orange'
+              : 'red';
         break;
       default:
         columnBackgroundColor = 'white';
