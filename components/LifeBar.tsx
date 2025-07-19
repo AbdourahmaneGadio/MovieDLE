@@ -1,15 +1,15 @@
 import { StyleSheet, View } from 'react-native';
 
 type LifeBarProps = {
-  lifePointsLost: number;
+  lifeRemaining: number;
 };
 
 export default function LifeBar({
-  lifePointsLost,
+  lifeRemaining,
 }: LifeBarProps) {
-  const lifePoints = 100;
-  const lifePointsRemaning =
-    lifePoints - lifePointsLost;
+  const lifePointsTotal = 100;
+  const lifePointsLost =
+    lifePointsTotal - lifeRemaining;
 
   return (
     <View style={stylesLifeBar.container}>
@@ -19,23 +19,21 @@ export default function LifeBar({
           borderTopLeftRadius: 5,
           borderBottomLeftRadius: 5,
           borderTopRightRadius:
-            lifePointsRemaning === 100 ? 5 : 0,
+            lifeRemaining === 100 ? 5 : 0,
           borderBottomRightRadius:
-            lifePointsRemaning === 100 ? 5 : 0,
-          width: `${lifePointsRemaning}%`,
+            lifeRemaining === 100 ? 5 : 0,
+          width: `${lifeRemaining}%`,
           visibility:
-            lifePointsRemaning > 0
-              ? ''
-              : 'hidden',
+            lifeRemaining > 0 ? '' : 'hidden',
         }}
         testID="remainingLife"></View>
       <View
         style={{
           backgroundColor: 'red',
           borderTopLeftRadius:
-            lifePointsRemaning === 0 ? 5 : 0,
+            lifePointsLost === 100 ? 5 : 0,
           borderBottomLeftRadius:
-            lifePointsRemaning === 0 ? 5 : 0,
+            lifePointsLost === 100 ? 5 : 0,
           borderTopRightRadius: 5,
           borderBottomRightRadius: 5,
           width: `${lifePointsLost}%`,

@@ -1,4 +1,5 @@
-import { Movie } from '@/app/types/types';
+import { MovieDetails } from '@/app/types/types';
+import { imagesUrlBase } from '@/app/var/EnvVar';
 import { Image } from 'expo-image';
 import {
   FlatList,
@@ -8,8 +9,8 @@ import {
 } from 'react-native';
 
 interface MovieStoreProps {
-  movies: Movie[];
-  movieToFind: Movie;
+  movies: MovieDetails[];
+  movieToFind: MovieDetails;
 }
 
 export default function MovieStore({
@@ -17,44 +18,71 @@ export default function MovieStore({
   movieToFind,
 }: MovieStoreProps) {
   const checkMovieProperties = function (
-    movieItem: Movie,
+    movieItem: MovieDetails,
     columnType: string
   ) {
     let columnBackgroundColor = 'white';
 
+    function checkGenres(
+      movieToFind: MovieDetails,
+      movieItem: MovieDetails
+    ): [boolean, boolean] {
+      const haveSameGenre =
+        movieToFind.genres.length ===
+          movieItem.genres.length &&
+        movieToFind.genres.every(
+          (item, index) =>
+            JSON.stringify(item) ===
+            JSON.stringify(
+              movieItem.genres[index]
+            )
+        );
+
+      const hameAtLeastOneGenreSimilar =
+        movieToFind.genres.some(item1 =>
+          movieItem.genres.some(
+            item2 => item1.id === item2.id
+          )
+        );
+
+      return [
+        haveSameGenre,
+        hameAtLeastOneGenreSimilar,
+      ];
+    }
+
+    const [
+      haveSameGenre,
+      hameAtLeastOneGenreSimilar,
+    ] = checkGenres(movieToFind, movieItem);
+
     switch (columnType) {
       case 'Title':
         columnBackgroundColor =
-          movieItem.Title === movieToFind.Title
+          movieItem.title === movieToFind.title
             ? 'green'
             : 'red';
         break;
       case 'Genre':
-        columnBackgroundColor =
-          movieItem.Genre === movieToFind.Genre
-            ? 'green'
-            : movieToFind.Genre.toLowerCase().includes(
-                  movieItem.Genre.toLowerCase()
-                )
-              ? 'orange'
-              : 'red';
+        columnBackgroundColor = haveSameGenre
+          ? 'green'
+          : hameAtLeastOneGenreSimilar
+            ? 'orange'
+            : 'red';
         break;
       case 'Release Year':
         columnBackgroundColor =
-          movieItem.Year === movieToFind.Year
+          movieItem.release_date ===
+          movieToFind.release_date
             ? 'green'
             : 'red';
         break;
-      case 'Director':
+      case 'Runtime':
         columnBackgroundColor =
-          movieItem.Director ===
-          movieToFind.Director
+          movieItem.runtime ===
+          movieToFind.runtime
             ? 'green'
-            : movieToFind.Director.toLowerCase().includes(
-                  movieItem.Director.toLowerCase()
-                )
-              ? 'orange'
-              : 'red';
+            : 'red';
         break;
       default:
         columnBackgroundColor = 'white';
@@ -125,7 +153,7 @@ export default function MovieStore({
             style={
               stylesMovieStore.columnTextItem
             }>
-            Director
+            Runtime
           </Text>
         </View>
       </View>
@@ -146,7 +174,7 @@ export default function MovieStore({
               }>
               <Image
                 style={stylesMovieStore.image}
-                source={item.Poster}
+                source={`${imagesUrlBase}${item.poster_path}`}
                 contentFit="cover"
                 transition={1000}
               />
@@ -161,7 +189,7 @@ export default function MovieStore({
               ]}>
               <Text
                 style={stylesMovieStore.textItem}>
-                {item.Title}
+                {item.title}
               </Text>
             </View>
             <View
@@ -172,10 +200,15 @@ export default function MovieStore({
                   'Genre'
                 ),
               ]}>
-              <Text
-                style={stylesMovieStore.textItem}>
-                {item.Genre}
-              </Text>
+              {item.genres.map((item, index) => (
+                <Text
+                  key={`${index}`}
+                  style={
+                    stylesMovieStore.textItem
+                  }>
+                  {item.name}
+                </Text>
+              ))}
             </View>
             <View
               style={[
@@ -187,7 +220,9 @@ export default function MovieStore({
               ]}>
               <Text
                 style={stylesMovieStore.textItem}>
-                {item.Year}
+                {new Date(
+                  item.release_date
+                ).getFullYear()}
               </Text>
             </View>
             <View
@@ -195,12 +230,12 @@ export default function MovieStore({
                 stylesMovieStore.textContainer,
                 checkMovieProperties(
                   item,
-                  'Director'
+                  'Runtime'
                 ),
               ]}>
               <Text
                 style={stylesMovieStore.textItem}>
-                {item.Director}
+                {item.runtime}
               </Text>
             </View>
           </View>

@@ -1,7 +1,6 @@
 import LifeBar from '@/components/LifeBar';
 import MovieStore from '@/components/MovieStore';
 import SearchBar from '@/components/SearchBar';
-import movieDatabase from '@/database/movies.json';
 import { useEffect, useState } from 'react';
 import {
   ImageBackground,
@@ -11,64 +10,141 @@ import {
   Text,
   View,
 } from 'react-native';
-import { Movie } from './types/types';
+import {
+  MovieDetails,
+  MovieSearch,
+} from './types/types';
+import {
+  apiReadToken,
+  urlFetchBaseUrl,
+} from './var/EnvVar';
 
 export default function Index() {
-  const [lifePointsLost, setLifePointsLost] =
-    useState(0);
+  const maxLifePoints = 100;
+  const lifeToLost = 10;
+  const [lifeRemaining, setlifeRemaining] =
+    useState(maxLifePoints);
   const [moviesChosen, setMoviesChosen] =
-    useState<Movie[]>([]);
+    useState<MovieDetails[]>([]);
   const [isGameOver, setIsGameOver] =
     useState(false);
-  const [
-    moviesFromDatabase,
-    setMoviesFromDatabase,
-  ] = useState(movieDatabase);
   const [movieToFind, setMovieToFind] =
-    useState<Movie>(moviesFromDatabase[0]);
+    useState<MovieDetails>({
+      genres: [{ id: 0, name: '' }],
+      id: 0,
+      poster_path: '',
+      release_date: '',
+      runtime: 0,
+      title: '',
+    });
 
   const backgroundImage = require('@/assets/images/background/bruno-guerrero-haCls4xhdqE-unsplash.jpg');
 
-  const handleButtonPress = (
-    singleMovieChosen: Movie
-  ) => {
-    setMoviesChosen([
-      ...moviesChosen,
-      singleMovieChosen,
-    ]);
+  function fetchMovieDetails(id: number) {
+    const maxPageRandomIndex = 500;
+    const indexRandomPage = Math.floor(
+      Math.random() * maxPageRandomIndex
+    );
 
-    if (singleMovieChosen !== movieToFind) {
-      setLifePointsLost(lifePointsLost + 10);
+    const urlMovieDetails =
+      id > 0
+        ? `movie/${id}?language=en-US`
+        : `discover/movie?include_adult=false&include_video=false&language=en-US&page=${maxPageRandomIndex}&sort_by=popularity.desc`;
+
+    const finalUrl = `${urlFetchBaseUrl}/${urlMovieDetails}`;
+    console.debug(
+      `Movie details url: ${finalUrl}`
+    );
+
+    const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        Authorization: `Bearer ${apiReadToken}`,
+      },
+    };
+    if (id > 0) {
+      fetch(finalUrl, options)
+        .then(res => res.json())
+        .then(json => {
+          const singleMovieChosen: MovieDetails =
+            json;
+          setMoviesChosen([
+            ...moviesChosen,
+            singleMovieChosen,
+          ]);
+        })
+        .catch(err => console.error(err));
     } else {
+      // We fetch from the discover api
+      fetch(finalUrl, options)
+        .then(res => res.json())
+        .then(json => {
+          const moviesDiscoverList = json.results;
+
+          const maxResultsRandomIndex = 20;
+          const indexRandomIndex = Math.floor(
+            Math.random() * maxResultsRandomIndex
+          );
+
+          const randomMovieDiscover: MovieSearch =
+            moviesDiscoverList[indexRandomIndex];
+          const urlDetailsRandom = `${urlFetchBaseUrl}/${`movie/${randomMovieDiscover.id}?language=en-US`}`;
+          // We refetch from the details api
+          fetch(urlDetailsRandom, options)
+            .then(res => res.json())
+            .then(json => {
+              const randomMovieDetails: MovieDetails =
+                json;
+              setMovieToFind(randomMovieDetails);
+
+              const movieToFindReleaseYear =
+                new Date(
+                  randomMovieDetails.release_date
+                ).getFullYear();
+
+              console.debug(
+                `The movie to find is : ${randomMovieDetails.title} (${movieToFindReleaseYear})`
+              );
+            })
+            .catch(err => console.error(err));
+        })
+        .catch(err => console.error(err));
+    }
+  }
+
+  const handleButtonPress = (
+    singleMovieChosen: MovieSearch
+  ) => {
+    fetchMovieDetails(singleMovieChosen.id);
+    // We check the last movie chosen, and verify if it correspond
+
+    if (singleMovieChosen.id === movieToFind.id) {
       setIsGameOver(true);
+    } else {
+      setlifeRemaining(
+        lifeRemaining - lifeToLost
+      );
+
+      if (lifeRemaining - lifeToLost <= 0)
+        setIsGameOver(true);
     }
   };
 
   const resetGame = () => {
     setMoviesChosen([]);
-    setMoviesFromDatabase(movieDatabase);
     randomiseMovieToFind();
-    setLifePointsLost(0);
+    setlifeRemaining(100);
     setIsGameOver(false);
   };
 
   const randomiseMovieToFind = () => {
-    const movieDatabaseLength =
-      movieDatabase.length;
-    const maxRandomMovieIndex =
-      movieDatabaseLength - 1;
-    const indexRandom = Math.floor(
-      Math.random() * maxRandomMovieIndex
-    );
-    const newMovieToFind =
-      movieDatabase[indexRandom];
-    setMovieToFind(newMovieToFind);
-    console.debug(
-      `The movie to find is : ${newMovieToFind.Title} (${newMovieToFind.Year})`
-    );
+    fetchMovieDetails(0);
   };
 
   useEffect(() => {
+    // We select a random movie to find on start if none is defined
+
     randomiseMovieToFind();
   }, []);
 
@@ -123,13 +199,12 @@ export default function Index() {
             refreshMovieFoundList={
               handleButtonPress
             }
-            movieDatabase={moviesFromDatabase}
           />
         )}
 
         {moviesChosen.length > 0 && (
           <LifeBar
-            lifePointsLost={lifePointsLost}
+            lifeRemaining={lifeRemaining}
           />
         )}
 

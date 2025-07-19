@@ -52,3 +52,6 @@ assets/**
 .expo-shared
 .prettirrc
 .eslintrc.js
+
+# Environement
+.env

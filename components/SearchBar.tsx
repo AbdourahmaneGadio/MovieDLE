@@ -1,6 +1,11 @@
-import { Movie } from '@/app/types/types';
+import { MovieSearch } from '@/app/types/types';
+import {
+  apiReadToken,
+  imagesUrlBase,
+  urlFetchBaseUrl,
+} from '@/app/var/EnvVar';
 import { Image } from 'expo-image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   FlatList,
   Pressable,
@@ -12,63 +17,106 @@ import {
 } from 'react-native';
 
 interface SearchBarProps {
-  refreshMovieFoundList: (movie: Movie) => void;
-  movieDatabase: Movie[];
+  refreshMovieFoundList: (
+    movieSearch: MovieSearch
+  ) => void;
 }
 
 export default function SearchBar({
   refreshMovieFoundList,
-  movieDatabase,
 }: SearchBarProps) {
   const [text, onChangeText] = useState('');
+  const [isLoading, setIsLoading] =
+    useState(false);
 
-  const [moviesAvailable, setMoviesAvailable] =
-    useState<Movie[]>(movieDatabase);
   const [
     moviesSearchCompatibles,
     setMoviesSearchCompatibles,
-  ] = useState<Movie[]>([]);
+  ] = useState<MovieSearch[]>([]);
+
+  const [
+    moviesAlreadyChosen,
+    setMoviesAlreadyChosen,
+  ] = useState<MovieSearch[]>([]);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      fetchData(text);
+    }, 500);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [text]);
 
   const searchAvailableMovies = (
     text: string
   ) => {
     if (text) {
-      const filteredMovies =
-        moviesAvailable.filter(movie =>
-          movie.Title.toLowerCase().includes(text)
-        );
-      setMoviesSearchCompatibles(filteredMovies);
+      // We use the useEffect with a timeout to avoid to fetch the api directly.
+      // It will help to avoid sendcing too much request at once
     } else {
       setMoviesSearchCompatibles([]);
     }
     onChangeText(text);
   };
 
-  const handleMovieSelected = (item: Movie) => {
-    console.debug(
-      `Number of movies available before the execution of the code : ${moviesAvailable.length}`
-    );
-    setMoviesAvailable(moviesAvailable =>
-      moviesAvailable.filter(
-        movie => movie.id !== item.id
-      )
-    );
-    console.debug(
-      `Number of movies available after the execution of the code : ${moviesAvailable.length}`
-    );
+  const handleMovieSelected = (
+    item: MovieSearch
+  ) => {
+    // setMoviesAvailable(moviesAvailable =>
+    //   moviesAvailable.filter(
+    //     movie => movie.id !== item.id
+    //   )
+    // );
 
-    console.debug(
-      `We remove all movies from the search bar`
-    );
+    // We remove all movies from the search bar`
     setMoviesSearchCompatibles([]);
 
-    console.debug(
-      `We clean the text from the search bar`
-    );
+    // `We clean the text from the search bar`
     onChangeText('');
 
+    const movieChosenReleaseYear = new Date(
+      item.release_date
+    ).getFullYear();
+
+    console.debug(
+      `We add the movie ${item.title} (${movieChosenReleaseYear}) into the movie store`
+    );
     refreshMovieFoundList(item);
+
+    // We update the list of movies already chosen
+    setMoviesAlreadyChosen([
+      ...moviesAlreadyChosen,
+      item,
+    ]);
   };
+
+  function fetchData(text: string) {
+    const urlMovieSearch = `search/movie?query=${text}&include_adult=false&language=en-US&page=1`;
+
+    const finalUrl = `${urlFetchBaseUrl}/${urlMovieSearch}`;
+    console.debug(
+      `Movie search url: ${finalUrl}`
+    );
+
+    const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        Authorization: `Bearer ${apiReadToken}`,
+      },
+    };
+
+    fetch(finalUrl, options)
+      .then(res => res.json())
+      .then(json => {
+        const fetchResults = json.results;
+        console.log(
+          `Number of movies fetched : ${fetchResults.length}`
+        );
+        setMoviesSearchCompatibles(fetchResults);
+      })
+      .catch(err => console.error(err));
+  }
 
   return (
     <View style={stylesSearchBar.container}>
@@ -157,7 +205,7 @@ export default function SearchBar({
                 }>
                 <Image
                   style={stylesSearchBar.image}
-                  source={item.Poster}
+                  source={`${imagesUrlBase}/${item.poster_path}`}
                   contentFit="cover"
                   transition={200}
                   contentPosition={
@@ -170,7 +218,13 @@ export default function SearchBar({
                   width: '60%',
                   alignItems: 'center',
                 }}>
-                <Text>{item.Title}</Text>
+                <Text>
+                  {item.title} (
+                  {new Date(
+                    item.release_date
+                  ).getFullYear()}
+                  )
+                </Text>
               </View>
             </Pressable>
           )}
