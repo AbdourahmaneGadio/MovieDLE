@@ -10,14 +10,14 @@ afterEach(cleanup);
 describe('<LifeBar />', () => {
   test('LifeBar renders correctly', () => {
     const tree = render(
-      <LifeBar lifePointsLost={0} />
+      <LifeBar lifeRemaining={0} />
     ).toJSON;
     expect(tree).toMatchSnapshot();
   });
 
   test('Remaining life should be full', () => {
     const { getByTestId } = render(
-      <LifeBar lifePointsLost={0} />
+      <LifeBar lifeRemaining={100} />
     );
 
     const remainingLife = getByTestId(
@@ -37,7 +37,7 @@ describe('<LifeBar />', () => {
 
   test('Life bar should be half full', () => {
     const { getByTestId } = render(
-      <LifeBar lifePointsLost={50} />
+      <LifeBar lifeRemaining={50} />
     );
 
     const remainingLife = getByTestId(
@@ -57,7 +57,7 @@ describe('<LifeBar />', () => {
 
   test('Life lost should be full', () => {
     const { getByTestId } = render(
-      <LifeBar lifePointsLost={100} />
+      <LifeBar lifeRemaining={0} />
     );
 
     const remainingLife = getByTestId(

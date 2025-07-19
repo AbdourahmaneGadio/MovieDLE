@@ -28,15 +28,16 @@ export default function Index() {
     useState<MovieDetails[]>([]);
   const [isGameOver, setIsGameOver] =
     useState(false);
+  const fakeMovieDetails: MovieDetails = {
+    genres: [{ id: 0, name: '' }],
+    id: 0,
+    poster_path: '',
+    release_date: '',
+    runtime: 0,
+    title: '',
+  };
   const [movieToFind, setMovieToFind] =
-    useState<MovieDetails>({
-      genres: [{ id: 0, name: '' }],
-      id: 0,
-      poster_path: '',
-      release_date: '',
-      runtime: 0,
-      title: '',
-    });
+    useState<MovieDetails>(fakeMovieDetails);
 
   const backgroundImage = require('@/assets/images/background/bruno-guerrero-haCls4xhdqE-unsplash.jpg');
 
@@ -49,7 +50,7 @@ export default function Index() {
     const urlMovieDetails =
       id > 0
         ? `movie/${id}?language=en-US`
-        : `discover/movie?include_adult=false&include_video=false&language=en-US&page=${maxPageRandomIndex}&sort_by=popularity.desc`;
+        : `discover/movie?include_adult=false&include_video=false&language=en-US&page=${indexRandomPage}&sort_by=popularity.desc`;
 
     const finalUrl = `${urlFetchBaseUrl}/${urlMovieDetails}`;
     console.debug(
@@ -144,9 +145,10 @@ export default function Index() {
 
   useEffect(() => {
     // We select a random movie to find on start if none is defined
-
-    randomiseMovieToFind();
-  }, []);
+    if (!movieToFind) {
+      randomiseMovieToFind();
+    }
+  }, [movieToFind]);
 
   return (
     <ImageBackground

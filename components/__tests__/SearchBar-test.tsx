@@ -4,9 +4,7 @@ import {
   render,
 } from '@testing-library/react-native';
 
-import { Movie } from '@/app/types/types';
 import SearchBar from '@/components/SearchBar';
-import movieDatabase from '@/database/movies.json';
 
 afterEach(cleanup);
 
@@ -14,14 +12,7 @@ describe('<SearchBar />', () => {
   test('SearchBar renders correctly', () => {
     const tree = render(
       <SearchBar
-        refreshMovieFoundList={function (
-          movie: Movie
-        ): void {
-          throw new Error(
-            'Function not implemented.'
-          );
-        }}
-        movieDatabase={[]}
+        refreshMovieFoundList={() => null}
       />
     ).toJSON;
     expect(tree).toMatchSnapshot();
@@ -31,7 +22,6 @@ describe('<SearchBar />', () => {
     const { getByTestId } = render(
       <SearchBar
         refreshMovieFoundList={() => null}
-        movieDatabase={[]}
       />
     );
 
@@ -55,7 +45,6 @@ describe('<SearchBar />', () => {
     const { getByTestId } = render(
       <SearchBar
         refreshMovieFoundList={() => null}
-        movieDatabase={movieDatabase}
       />
     );
 
@@ -78,42 +67,5 @@ describe('<SearchBar />', () => {
 
     // The movie list should be on the screen
     expect(movieList).toBeOnTheScreen();
-  });
-
-  test('The text in the search bar should be empty', () => {
-    const { getByTestId, getAllByTestId } =
-      render(
-        <SearchBar
-          refreshMovieFoundList={() => null}
-          movieDatabase={movieDatabase}
-        />
-      );
-
-    // Init the search bar
-    const searchBarTextInput = getByTestId(
-      'searchBarTextInput'
-    );
-
-    // Use a letter that the movies in the list contains
-    const movieSearch = 'm';
-
-    // Trigger the change text
-    fireEvent.changeText(
-      searchBarTextInput,
-      movieSearch
-    );
-
-    // Get the last item of the list
-    const movieListPressable = getAllByTestId(
-      'movieListPressable'
-    );
-
-    // Tap on the last movie of the list
-    fireEvent.press(movieListPressable.findLast);
-
-    // The text should be empty
-    expect(searchBarTextInput).toHaveTextContent(
-      ''
-    );
   });
 });

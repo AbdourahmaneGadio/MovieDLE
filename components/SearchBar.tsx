@@ -26,8 +26,6 @@ export default function SearchBar({
   refreshMovieFoundList,
 }: SearchBarProps) {
   const [text, onChangeText] = useState('');
-  const [isLoading, setIsLoading] =
-    useState(false);
 
   const [
     moviesSearchCompatibles,
