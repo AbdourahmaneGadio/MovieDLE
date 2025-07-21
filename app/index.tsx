@@ -3,6 +3,7 @@ import MovieStore from '@/components/MovieStore';
 import SearchBar from '@/components/SearchBar';
 import { useEffect, useState } from 'react';
 import {
+  ActivityIndicator,
   ImageBackground,
   Pressable,
   ScrollView,
@@ -20,6 +21,8 @@ import {
 } from './var/EnvVar';
 
 export default function Index() {
+  const [loading, setLoading] = useState(false);
+
   const maxLifePoints = 100;
   const lifeToLost = 10;
   const [lifeRemaining, setlifeRemaining] =
@@ -39,18 +42,18 @@ export default function Index() {
   const [movieToFind, setMovieToFind] =
     useState<MovieDetails>(fakeMovieDetails);
 
-  const backgroundImage = require('@/assets/images/background/bruno-guerrero-haCls4xhdqE-unsplash.jpg');
+  const backgroundImage = require('../assets/images/background/bruno-guerrero-haCls4xhdqE-unsplash.jpg');
 
   function fetchMovieDetails(id: number) {
-    const maxPageRandomIndex = 500;
+    const maxPageRandomIndex = 100;
     const indexRandomPage = Math.floor(
       Math.random() * maxPageRandomIndex
     );
 
     const urlMovieDetails =
       id > 0
-        ? `movie/${id}?language=en-US`
-        : `discover/movie?include_adult=false&include_video=false&language=en-US&page=${indexRandomPage}&sort_by=popularity.desc`;
+        ? `movie/${id}?language=en-US` // For a movie selected in the search bar
+        : `discover/movie?include_adult=false&include_video=false&language=en-US&page=${indexRandomPage}&primary_release_date.gte=1900-01-01&sort_by=popularity.desc&vote_average.gte=6&vote_count.gte=100&with_runtime.gte=60`; // For the movie to find in a random way
 
     const finalUrl = `${urlFetchBaseUrl}/${urlMovieDetails}`;
     console.debug(
@@ -104,6 +107,8 @@ export default function Index() {
                   randomMovieDetails.release_date
                 ).getFullYear();
 
+              console.debug(randomMovieDetails);
+
               console.debug(
                 `The movie to find is : ${randomMovieDetails.title} (${movieToFindReleaseYear})`
               );
@@ -133,10 +138,14 @@ export default function Index() {
   };
 
   const resetGame = () => {
+    setLoading(true);
+
     setMoviesChosen([]);
     randomiseMovieToFind();
     setlifeRemaining(100);
     setIsGameOver(false);
+
+    setLoading(false);
   };
 
   const randomiseMovieToFind = () => {
@@ -181,10 +190,12 @@ export default function Index() {
             MovieDLE
           </Text>
         </View>
-        {isGameOver && (
+        {(isGameOver || __DEV__) && (
           <Pressable
             testID="RetryButton"
-            onPress={resetGame}
+            onPress={() => {
+              resetGame();
+            }}
             style={{
               backgroundColor: 'pink',
               borderWidth: 2,
@@ -196,19 +207,27 @@ export default function Index() {
             <Text>Retry ?</Text>
           </Pressable>
         )}
-        {!isGameOver && (
+        {!isGameOver && !loading && (
           <SearchBar
             refreshMovieFoundList={
               handleButtonPress
             }
           />
         )}
-
-        {moviesChosen.length > 0 && (
-          <LifeBar
-            lifeRemaining={lifeRemaining}
-          />
+        {loading && (
+          <View>
+            <ActivityIndicator
+              size="large"
+              color="lightblue"
+            />
+          </View>
         )}
+        {!isGameOver &&
+          moviesChosen.length > 0 && (
+            <LifeBar
+              lifeRemaining={lifeRemaining}
+            />
+          )}
 
         {moviesChosen.length > 0 && (
           <ScrollView

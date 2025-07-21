@@ -7,6 +7,7 @@ import {
 import { Image } from 'expo-image';
 import { useEffect, useState } from 'react';
 import {
+  ActivityIndicator,
   FlatList,
   Pressable,
   ScrollView,
@@ -26,6 +27,7 @@ export default function SearchBar({
   refreshMovieFoundList,
 }: SearchBarProps) {
   const [text, onChangeText] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const [
     moviesSearchCompatibles,
@@ -41,13 +43,13 @@ export default function SearchBar({
     const delayDebounceFn = setTimeout(() => {
       fetchData(text);
     }, 500);
-
     return () => clearTimeout(delayDebounceFn);
   }, [text]);
 
   const searchAvailableMovies = (
     text: string
   ) => {
+    setLoading(true);
     if (text) {
       // We use the useEffect with a timeout to avoid to fetch the api directly.
       // It will help to avoid sendcing too much request at once
@@ -55,6 +57,7 @@ export default function SearchBar({
       setMoviesSearchCompatibles([]);
     }
     onChangeText(text);
+    setLoading(false);
   };
 
   const handleMovieSelected = (
@@ -108,10 +111,26 @@ export default function SearchBar({
       .then(res => res.json())
       .then(json => {
         const fetchResults = json.results;
-        console.log(
+        console.debug(
           `Number of movies fetched : ${fetchResults.length}`
         );
-        setMoviesSearchCompatibles(fetchResults);
+        const idsToRemove = new Set(
+          moviesAlreadyChosen.map(item => item.id)
+        );
+        const resultsFiltered =
+          fetchResults.filter(
+            (item: MovieSearch) =>
+              !idsToRemove.has(item.id)
+          );
+        console.debug(
+          `moviesAlreadyChosen length: ${moviesAlreadyChosen.length}`
+        );
+        console.debug(
+          `resultsFiltered length : ${resultsFiltered.length}`
+        );
+        setMoviesSearchCompatibles(
+          resultsFiltered
+        );
       })
       .catch(err => console.error(err));
   }
@@ -157,77 +176,86 @@ export default function SearchBar({
           </Text>
         </Pressable>
       </View>
-      <ScrollView
-        style={stylesSearchBar.scrollView}>
-        <FlatList
-          data={moviesSearchCompatibles}
-          testID="movieList"
-          renderItem={({ item, index }) => (
-            <Pressable
-              style={{
-                height: 100,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-evenly',
-                borderColor: 'darkblue',
-                borderLeftWidth: 3,
-                borderRightWidth: 3,
-                borderBottomWidth:
-                  index ===
-                  moviesSearchCompatibles.length -
-                    1
-                    ? 3
-                    : 0,
-                backgroundColor: 'white',
-                borderBottomLeftRadius:
-                  index ===
-                  moviesSearchCompatibles.length -
-                    1
-                    ? 10
-                    : 0,
-                borderBottomRightRadius:
-                  index ===
-                  moviesSearchCompatibles.length -
-                    1
-                    ? 10
-                    : 0,
-                overflow: 'hidden',
-              }}
-              onPress={() => {
-                handleMovieSelected(item);
-              }}
-              testID="movieListPressable">
-              <View
-                style={
-                  stylesSearchBar.imageContainer
-                }>
-                <Image
-                  style={stylesSearchBar.image}
-                  source={`${imagesUrlBase}/${item.poster_path}`}
-                  contentFit="cover"
-                  transition={200}
-                  contentPosition={
-                    'bottom center'
-                  }
-                />
-              </View>
-              <View
+      {loading ? (
+        <View>
+          <ActivityIndicator
+            size="large"
+            color="lightblue"
+          />
+        </View>
+      ) : (
+        <ScrollView
+          style={stylesSearchBar.scrollView}>
+          <FlatList
+            data={moviesSearchCompatibles}
+            testID="movieList"
+            renderItem={({ item, index }) => (
+              <Pressable
                 style={{
-                  width: '60%',
+                  height: 100,
+                  flexDirection: 'row',
                   alignItems: 'center',
-                }}>
-                <Text>
-                  {item.title} (
-                  {new Date(
-                    item.release_date
-                  ).getFullYear()}
-                  )
-                </Text>
-              </View>
-            </Pressable>
-          )}
-        />
-      </ScrollView>
+                  justifyContent: 'space-evenly',
+                  borderColor: 'darkblue',
+                  borderLeftWidth: 3,
+                  borderRightWidth: 3,
+                  borderBottomWidth:
+                    index ===
+                    moviesSearchCompatibles.length -
+                      1
+                      ? 3
+                      : 0,
+                  backgroundColor: 'white',
+                  borderBottomLeftRadius:
+                    index ===
+                    moviesSearchCompatibles.length -
+                      1
+                      ? 10
+                      : 0,
+                  borderBottomRightRadius:
+                    index ===
+                    moviesSearchCompatibles.length -
+                      1
+                      ? 10
+                      : 0,
+                  overflow: 'hidden',
+                }}
+                onPress={() => {
+                  handleMovieSelected(item);
+                }}
+                testID="movieListPressable">
+                <View
+                  style={
+                    stylesSearchBar.imageContainer
+                  }>
+                  <Image
+                    style={stylesSearchBar.image}
+                    source={`${imagesUrlBase}/${item.poster_path}`}
+                    contentFit="cover"
+                    transition={200}
+                    contentPosition={
+                      'bottom center'
+                    }
+                  />
+                </View>
+                <View
+                  style={{
+                    width: '60%',
+                    alignItems: 'center',
+                  }}>
+                  <Text>
+                    {item.title} (
+                    {new Date(
+                      item.release_date
+                    ).getFullYear()}
+                    )
+                  </Text>
+                </View>
+              </Pressable>
+            )}
+          />
+        </ScrollView>
+      )}
 
       {/* {text && moviesSearchCompatibles.length === 0 && (
         <Text testID="noMoviesAvailableText">No movies available...</Text>

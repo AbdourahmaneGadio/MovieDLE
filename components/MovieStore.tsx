@@ -1,5 +1,6 @@
 import { MovieDetails } from '@/app/types/types';
 import { imagesUrlBase } from '@/app/var/EnvVar';
+import { AntDesign } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import {
   FlatList,
@@ -38,7 +39,7 @@ export default function MovieStore({
             )
         );
 
-      const hameAtLeastOneGenreSimilar =
+      const haveAtLeastOneGenreSimilar =
         movieToFind.genres.some(item1 =>
           movieItem.genres.some(
             item2 => item1.id === item2.id
@@ -47,13 +48,13 @@ export default function MovieStore({
 
       return [
         haveSameGenre,
-        hameAtLeastOneGenreSimilar,
+        haveAtLeastOneGenreSimilar,
       ];
     }
 
     const [
       haveSameGenre,
-      hameAtLeastOneGenreSimilar,
+      haveAtLeastOneGenreSimilar,
     ] = checkGenres(movieToFind, movieItem);
 
     switch (columnType) {
@@ -61,19 +62,27 @@ export default function MovieStore({
         columnBackgroundColor =
           movieItem.title === movieToFind.title
             ? 'green'
-            : 'red';
+            : movieToFind.title.includes(
+                  movieItem.title
+                )
+              ? 'orange'
+              : 'red';
         break;
       case 'Genre':
         columnBackgroundColor = haveSameGenre
           ? 'green'
-          : hameAtLeastOneGenreSimilar
+          : haveAtLeastOneGenreSimilar
             ? 'orange'
             : 'red';
         break;
       case 'Release Year':
         columnBackgroundColor =
-          movieItem.release_date ===
-          movieToFind.release_date
+          new Date(
+            movieItem.release_date
+          ).getFullYear() ===
+          new Date(
+            movieToFind.release_date
+          ).getFullYear()
             ? 'green'
             : 'red';
         break;
@@ -137,6 +146,7 @@ export default function MovieStore({
         <View
           style={[
             stylesMovieStore.columnTextContainer,
+            { flexDirection: 'column' },
           ]}>
           <Text
             style={
@@ -217,6 +227,9 @@ export default function MovieStore({
                   item,
                   'Release Year'
                 ),
+                {
+                  justifyContent: 'space-evenly',
+                },
               ]}>
               <Text
                 style={stylesMovieStore.textItem}>
@@ -224,6 +237,27 @@ export default function MovieStore({
                   item.release_date
                 ).getFullYear()}
               </Text>
+              {new Date(
+                movieToFind.release_date
+              ).getFullYear() !==
+                new Date(
+                  item.release_date
+                ).getFullYear() && (
+                <AntDesign
+                  name={
+                    new Date(
+                      movieToFind.release_date
+                    ).getFullYear() >
+                    new Date(
+                      item.release_date
+                    ).getFullYear()
+                      ? 'upcircleo'
+                      : 'downcircleo'
+                  }
+                  size={50}
+                  color="white"
+                />
+              )}
             </View>
             <View
               style={[
@@ -232,11 +266,27 @@ export default function MovieStore({
                   item,
                   'Runtime'
                 ),
+                {
+                  justifyContent: 'space-evenly',
+                },
               ]}>
               <Text
                 style={stylesMovieStore.textItem}>
                 {item.runtime}
               </Text>
+              {movieToFind.runtime !==
+                item.runtime && (
+                <AntDesign
+                  name={
+                    movieToFind.runtime >
+                    item.runtime
+                      ? 'upcircleo'
+                      : 'downcircleo'
+                  }
+                  size={50}
+                  color="white"
+                />
+              )}
             </View>
           </View>
         )}

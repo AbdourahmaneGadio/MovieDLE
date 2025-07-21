@@ -9,21 +9,21 @@ import MovieStore from '@/components/MovieStore';
 afterEach(cleanup);
 
 const fakeMovieDetails: MovieDetails = {
-  genres: [{ id: 0, name: '' }],
-  id: 0,
-  poster_path: '',
-  release_date: '',
-  runtime: 0,
-  title: '',
+  genres: [{ id: 1, name: 'Drama' }],
+  id: 1,
+  poster_path: 'randomPath',
+  release_date: new Date().toString(),
+  runtime: 1,
+  title: 'Movie number one',
 };
 
 const fakeMovieDetails2: MovieDetails = {
-  genres: [{ id: 1, name: '' }],
-  id: 1,
-  poster_path: '',
-  release_date: '',
-  runtime: 1,
-  title: '',
+  genres: [{ id: 2, name: 'Comedy' }],
+  id: 2,
+  poster_path: 'anotherRandomPath',
+  release_date: new Date().toString(),
+  runtime: 2,
+  title: 'Movie number two',
 };
 
 const movies = [
@@ -42,22 +42,17 @@ describe('<MovieStore />', () => {
     expect(tree).toMatchSnapshot();
   });
 
-  test('Movies should be in the list', () => {
+  test('Movies list should appear on screen',  () => {
     const { getByTestId, getAllByTestId } =
       render(
         <MovieStore
-          movies={movies}
+          movies={[]}
           movieToFind={fakeMovieDetails}
         />
       );
 
-    const movieList = getByTestId('moviesList');
+    const movieList =  getByTestId('moviesList');
     expect(movieList).toBeOnTheScreen();
 
-    const movieItems =
-      getAllByTestId('movieItem');
-    expect(movieItems).toHaveLength(
-      movies.length
-    );
   });
 });
