@@ -42,7 +42,7 @@ describe('<MovieStore />', () => {
     expect(tree).toMatchSnapshot();
   });
 
-  test('Movies list should appear on screen',  () => {
+  test('Movies list should appear on screen', () => {
     const { getByTestId, getAllByTestId } =
       render(
         <MovieStore
@@ -51,8 +51,7 @@ describe('<MovieStore />', () => {
         />
       );
 
-    const movieList =  getByTestId('moviesList');
+    const movieList = getByTestId('moviesList');
     expect(movieList).toBeOnTheScreen();
-
   });
 });
