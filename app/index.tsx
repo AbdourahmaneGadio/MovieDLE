@@ -42,7 +42,7 @@ export default function Index() {
   const [movieToFind, setMovieToFind] =
     useState<MovieDetails>(fakeMovieDetails);
 
-  const backgroundImage = require('@/assets/images/background/bruno-guerrero-haCls4xhdqE-unsplash.jpg')
+  const backgroundImage = require('@/assets/images/background/bruno-guerrero-haCls4xhdqE-unsplash.jpg');
 
   function fetchMovieDetails(id: number) {
     const maxPageRandomIndex = 100;
