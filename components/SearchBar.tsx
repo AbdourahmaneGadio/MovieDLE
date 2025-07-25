@@ -40,9 +40,11 @@ export default function SearchBar({
   ] = useState<MovieSearch[]>([]);
 
   useEffect(() => {
+    setLoading(true)
     const delayDebounceFn = setTimeout(() => {
       fetchData(text);
     }, 500);
+    setLoading(false)
     return () => clearTimeout(delayDebounceFn);
   }, [text]);
 

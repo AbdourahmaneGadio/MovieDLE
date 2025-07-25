@@ -154,7 +154,7 @@ export default function Index() {
 
   useEffect(() => {
     // We select a random movie to find on start if none is defined
-    if (!movieToFind) {
+    if (movieToFind.id === 0) {
       randomiseMovieToFind();
     }
   }, [movieToFind]);
