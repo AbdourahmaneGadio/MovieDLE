@@ -1,50 +1,97 @@
-# Welcome to your Expo app 👋
+# MovieDLE React Native App 📱
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A cross-platform mobile application built with **React Native** and **Expo**, featuring automated **CI/CD** pipelines using **GitHub Actions** for streamlined development, testing, and deployment.
 
-## Get started
+---
 
-1. Install dependencies
+## 🚀 Features
 
-   ```bash
-   npm install
-   ```
+- **React Native + Expo** for universal mobile development.
+- **CI/CD with GitHub Actions**:
+  - Auto linting, testing, and building on every push or pull request.
+  - Automatic builds using **Expo Application Services (EAS)**.
+  - Secure secrets management for tokens and environment variables.
+  - Custom build profiles via `eas.json` for staging/production.
 
-2. Start the app
+## 📂 Project Structure
 
-   ```bash
-   npx expo start
-   ```
+- `app/`: App source code
+- `.github/workflows/`: GitHub Actions CI/CD workflows
+- `eas.json`: Expo EAS build configuration
+- `app.json`: App metadata for Expo
 
-In the output, you'll find options to open the app in a
+---
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 🛠️ Getting Started
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### Prerequisites
 
-## Get a fresh project
+- Node.js (v16+ recommended)
+- Yarn or npm
+- Expo CLI:
+```npm install -g expo-cli```
 
-When you're ready, run:
+### Installation for development
 
-```bash
-npm run reset-project
+git clone https://github.com/AbdourahmaneGadio/MovieDLE.git
+cd MovieDLE
+npm install
+
+### Start the App
+```
+npx expo start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### Installation for an Android device
 
-## Learn more
+Go to this link : [MovieDLEApp](https://expo.dev/accounts/guer7_jdhf/projects/movie-dle-app/builds/01bf751b-ade1-4ade-afa3-2759092dfd6b)
 
-To learn more about developing your project with Expo, look at the following resources:
+Or install [Expo Go](https://expo.dev/go), and then scan this QR Code :
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+<img style='height: 250px;
+  width: 250px;' src='https://qr.expo.dev/eas-update?slug=exp&projectId=d4767b80-dcc1-4aa7-a5c1-647a3d6aadfc&groupId=a8d73294-8047-4110-a1d7-4ad7e3a2e939&host=u.expo.dev' />
 
-## Join the community
+---
 
-Join our community of developers creating universal apps.
+## 🧪 Development Tools
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```
+npm run lint --fix # Lint your code
+npm run test # Run unit tests
+```
+
+
+---
+
+## ⚙️ CI/CD with GitHub Actions
+
+Automated workflows are triggered via GitHub Actions:
+
+### CI Workflows
+
+- Triggered on every push or pull request.
+- Runs:
+  - TypeScript checks
+  - ESLint and Prettier
+  - Unit tests
+
+### CD Workflows
+
+- Triggered on `main` branch pushes.
+- Uses Expo EAS to:
+  - Build Android/iOS binaries
+  - Upload artifacts or deploy to store (optional)
+
+---
+
+## 📄 License
+
+[MIT](./LICENSE)
+
+---
+
+## 🙌 Acknowledgements
+
+- [Expo](https://expo.dev)
+- [React Native](https://reactnative.dev)
+- [GitHub Actions](https://github.com/features/actions)
