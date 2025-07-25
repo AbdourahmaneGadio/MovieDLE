@@ -33,9 +33,11 @@ A cross-platform mobile application built with **React Native** and **Expo**, fe
 
 ### Installation for development
 
+```
 git clone https://github.com/AbdourahmaneGadio/MovieDLE.git
 cd MovieDLE
 npm install
+```
 
 ### Start the App
 ```
