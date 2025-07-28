@@ -1,4 +1,5 @@
 import LifeBar from '@/components/LifeBar';
+import MoviePopUp from '@/components/MoviePopUp';
 import MovieStore from '@/components/MovieStore';
 import SearchBar from '@/components/SearchBar';
 import { useEffect, useState } from 'react';
@@ -191,11 +192,11 @@ export default function Index() {
           </Text>
         </View>
         {(isGameOver || __DEV__) && (
-          <Pressable
+          <><Pressable
             testID="RetryButton"
             onPress={() => {
               resetGame();
-            }}
+            } }
             style={{
               backgroundColor: 'pink',
               borderWidth: 2,
@@ -205,7 +206,7 @@ export default function Index() {
               marginBottom: 10,
             }}>
             <Text>Retry ?</Text>
-          </Pressable>
+          </Pressable><MoviePopUp movieToFind={movieToFind}></MoviePopUp></>
         )}
         {!isGameOver && !loading && (
           <SearchBar
