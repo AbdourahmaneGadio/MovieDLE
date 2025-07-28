@@ -192,21 +192,27 @@ export default function Index() {
           </Text>
         </View>
         {(isGameOver || __DEV__) && (
-          <><Pressable
-            testID="RetryButton"
-            onPress={() => {
-              resetGame();
-            } }
-            style={{
-              backgroundColor: 'pink',
-              borderWidth: 2,
-              borderColor: 'red',
-              padding: 10,
-              borderRadius: 10,
-              marginBottom: 10,
-            }}>
-            <Text>Retry ?</Text>
-          </Pressable><MoviePopUp movieToFind={movieToFind}></MoviePopUp></>
+          <>
+            <Pressable
+              testID="RetryButton"
+              onPress={() => {
+                resetGame();
+              }}
+              style={{
+                backgroundColor: 'pink',
+                borderWidth: 2,
+                borderColor: 'red',
+                padding: 10,
+                borderRadius: 10,
+                marginBottom: 10,
+              }}>
+              <Text>Retry ?</Text>
+            </Pressable>
+            <MoviePopUp
+              movieToFind={
+                movieToFind
+              }></MoviePopUp>
+          </>
         )}
         {!isGameOver && !loading && (
           <SearchBar
