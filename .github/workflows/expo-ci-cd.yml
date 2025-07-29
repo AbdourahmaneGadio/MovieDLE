@@ -151,9 +151,6 @@ jobs:
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
           files: ${{ github.workspace }}/app-release.apk
-          draft: false
-          prerelease: false
-          generate_release_notes: true
 
   build-cloud:
     runs-on: ubuntu-latest
@@ -194,8 +191,8 @@ jobs:
       - name: Install Node.js dependencies
         run: npm install
 
-      - name: Run EAS Build (cloud)
-        run: eas build --platform android --profile production --non-interactive
+      - name: Run EAS Update (cloud)
+        run: eas update --auto --non-interactive
 
       - name: Show Build Details
         run: eas build:list --status finished
