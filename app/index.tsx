@@ -54,7 +54,7 @@ export default function Index() {
     const urlMovieDetails =
       id > 0
         ? `movie/${id}?language=en-US` // For a movie selected in the search bar
-        : `discover/movie?include_adult=false&include_video=false&language=en-US&page=${indexRandomPage}&primary_release_date.gte=1900-01-01&sort_by=popularity.desc&vote_average.gte=6&vote_count.gte=100&with_runtime.gte=60`; // For the movie to find in a random way
+        : `discover/movie?include_adult=false&include_video=false&language=en-US&page=${indexRandomPage}&primary_release_date.gte=1900-01-01&sort_by=popularity.desc&vote_average.gte=6&vote_count.gte=1000&with_runtime.gte=60`; // For the movie to find in a random way
 
     const finalUrl = `${urlFetchBaseUrl}/${urlMovieDetails}`;
     console.debug(
