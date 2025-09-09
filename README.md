@@ -1,24 +1,30 @@
-# MovieDLE React Native App 📱
+# MovieDLE 📱
 
-A cross-platform mobile application built with **React Native** and **Expo**, featuring automated **CI/CD** pipelines using **GitHub Actions** for streamlined development, testing, and deployment.
+MovieDLE is a cross-platform mobile game built with **React Native** and **Expo**, where the user has to find a movie picked randomly.
 
----
+## App preview
 
-## 🚀 Features
-
-- **React Native + Expo** for universal mobile development.
-- **CI/CD with GitHub Actions**:
-  - Auto linting, testing, and building on every push or pull request.
-  - Automatic builds using **Expo Application Services (EAS)**.
-  - Secure secrets management for tokens and environment variables.
-  - Custom build profiles via `eas.json` for staging/production.
+![](https://github.com/AbdourahmaneGadio/MovieDLE/blob/main/assets/videos/app_preview.webp)
 
 ## 📂 Project Structure
 
-- `app/`: App source code
-- `.github/workflows/`: GitHub Actions CI/CD workflows
-- `eas.json`: Expo EAS build configuration
-- `app.json`: App metadata for Expo
+```
+MovieDLE/
+│
+├── .github/
+│   └── workflows/              # GitHub Actions CI/CD workflows      
+│
+├── app/                        # App source code  
+│   ├── types/
+│   └── var/
+│
+├── assets/                        
+│
+├── components/                        
+│
+├── eas.json                    # Expo EAS build configuration
+└── app.json                    # App metadata for Expo       
+```
 
 ---
 
@@ -65,26 +71,6 @@ npm run test # Run unit tests
 
 ---
 
-## ⚙️ CI/CD with GitHub Actions
-
-Automated workflows are triggered via GitHub Actions:
-
-### CI Workflows
-
-- Triggered on every push or pull request.
-- Runs:
-  - TypeScript checks
-  - ESLint and Prettier
-  - Unit tests
-
-### CD Workflows
-
-- Triggered on `main` branch pushes.
-- Uses Expo EAS to:
-  - Build Android/iOS binaries
-  - Upload artifacts or deploy to store (optional)
-
----
 
 ## 📄 License
 
@@ -97,3 +83,4 @@ Automated workflows are triggered via GitHub Actions:
 - [Expo](https://expo.dev)
 - [React Native](https://reactnative.dev)
 - [GitHub Actions](https://github.com/features/actions)
+- [TMDB API](https://developer.themoviedb.org/docs/getting-started)
